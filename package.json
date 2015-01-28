@@ -21,8 +21,8 @@
     "http-server" : "0.7.4"
   },
   "scripts": {
-    "start": "watchify -o js/obb-frontend.js -v -d .",
-    "build": "NODE_ENV=production browserify . | uglifyjs -cm > js/obb-frontend.min.js",
+    "start": "watchify -o dist/obb-frontend.js -v -d .",
+    "build": "NODE_ENV=production browserify . | uglifyjs -cm > dist/obb-frontend.min.js",
     "test": "jest"
   },
   "author": "Pedro Pereira Santos",
