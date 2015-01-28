@@ -31,3 +31,4 @@ node_modules
 .sass-cache
 js/.bundle.js
 js/bundle.js
+css/main.css
