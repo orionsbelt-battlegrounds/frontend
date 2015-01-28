@@ -2,7 +2,7 @@
 
 LOG_FILE=~/common.log
 
-rm $LOG_FILE
+rm -rf $LOG_FILE
 touch $LOG_FILE
 
 killall -w -r compass || true
