@@ -31,4 +31,5 @@ node_modules
 .sass-cache
 js/.bundle.js
 js/bundle.js
-css/main.css
+css/obb-frontend.css
+js/obb-frontend.js
