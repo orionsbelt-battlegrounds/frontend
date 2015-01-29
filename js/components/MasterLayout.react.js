@@ -12,7 +12,9 @@ var MasterLayout = React.createClass({
       <div>
         <Header/>
         <div className='container'>
-          <RouteHandler/>
+          <div className="bs-docs-section clearfix">
+            <RouteHandler/>
+          </div>
           <Footer/>
         </div>
       </div>
