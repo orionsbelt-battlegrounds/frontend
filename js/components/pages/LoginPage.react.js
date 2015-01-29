@@ -17,6 +17,14 @@ var LoginPage = React.createClass({
     return {verifying: false};
   },
 
+  componentDidMount: function() {
+    CurrentUserStore.addChangeListener(this.onCurrentUserChanged);
+  },
+
+  componentWillUnmount: function() {
+    CurrentUserStore.removeChangeListener(this.onCurrentUserChanged);
+  },
+
   render: function () {
 
     var disabled = "";
@@ -61,6 +69,10 @@ var LoginPage = React.createClass({
   },
 
   onCancel : function(ev) {
+    this.transitionTo('root');
+  },
+
+  onCurrentUserChanged: function onChange() {
     this.transitionTo('root');
   }
 

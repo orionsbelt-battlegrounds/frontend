@@ -25,7 +25,7 @@ var Header = React.createClass({
             </ul>*/}
 
             <ul className="nav navbar-nav navbar-right">
-              <li><CurrentUserMenu /></li>
+              <CurrentUserMenu />
             </ul>
 
           </div>

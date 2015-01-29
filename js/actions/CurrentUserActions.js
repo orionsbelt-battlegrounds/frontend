@@ -6,7 +6,7 @@ module.exports = {
 
   verifyUsername: function(username, password) {
     AppDispatcher.dispatch({
-      actionType: "verifyUsername",
+      actionType: "CurrentUser#verifyUsername",
       username: username,
       password: password
     });
