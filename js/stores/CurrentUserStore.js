@@ -9,8 +9,7 @@ var currentUser = null;
 
 function setCurrentUser(user) {
   currentUser = user;
-  console.log(currentUser)
-  CurrentUserStore.emitChange();
+  CurrentUserStore.emitChange(CURRENT_USER_CHANGED_EVENT);
 }
 
 var CurrentUserStore = assign({}, EventEmitter.prototype, {
@@ -26,12 +25,16 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
     }, 500);
   },
 
+  "CurrentUser#logout": function(action) {
+    setCurrentUser(null);
+  },
+
   getCurrentUser: function getCurrentUser() {
     return currentUser;
   },
 
-  emitChange: function() {
-    this.emit(CURRENT_USER_CHANGED_EVENT);
+  emitChange: function(event) {
+    this.emit(event);
   },
 
   addChangeListener: function(callback) {

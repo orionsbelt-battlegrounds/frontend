@@ -5,6 +5,7 @@ var React = require('react');
 var Route = Router.Route, DefaultRoute = Router.DefaultRoute,
             Link=Router.Link, RouteHandler = Router.RouteHandler;
 
+var CurrentUserActions = require('../../actions/CurrentUserActions.js');
 var CurrentUserStore = require('../../stores/CurrentUserStore.js');
 
 function renderGoLogin() {
@@ -15,14 +16,14 @@ function renderGoLogin() {
   );
 }
 
-function renderUserMenu() {
+function renderUserMenu(component) {
   return (
     <li>
       <a href="#" className="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">{CurrentUserStore.getCurrentUser().username} <b className="caret"></b></a>
       <ul className="dropdown-menu">
         <li><a href="#">Profile</a></li>
         <li className="divider"></li>
-        <li><a href="#">Logout</a></li>
+        <li><a onClick={component.onLogout} href="#">Logout</a></li>
       </ul>
     </li>
   );
@@ -48,9 +49,13 @@ module.exports = React.createClass({
 
   render: function () {
     if(this.state.user) {
-      return renderUserMenu();
+      return renderUserMenu(this);
     } else {
       return renderGoLogin();
     }
+  },
+
+  onLogout: function onLogout() {
+    CurrentUserActions.logout();
   }
 });
