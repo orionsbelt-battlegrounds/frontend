@@ -1,11 +1,15 @@
 'use strict';
 
 var ReactRouter = require('react-router');
-var HashLocation = ReactRouter.HashLocation;
 var routes = require('../routes');
 
+var LocationHandler = ReactRouter.HistoryLocation;
+if(process.env.NODE_ENV !== 'production' ) {
+  LocationHandler = ReactRouter.HashLocation;
+}
+
 var router = ReactRouter.create({
-  location: HashLocation,
+  location: LocationHandler,
   routes: routes
 });
 
