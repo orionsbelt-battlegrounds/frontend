@@ -22,9 +22,9 @@
     "http-server" : "0.7.4"
   },
   "jest": {
-    "rootDir": ".",
-    "scriptPreprocessor": "<rootDir>/js/utils/preprocessor.js",
-    "unmockedModulePathPatterns": ["<rootDir>/node_modules/react"]
+    "rootDir": "js",
+    "scriptPreprocessor": "<rootDir>/utils/preprocessor.js",
+    "unmockedModulePathPatterns": ["<rootDir>/../node_modules/react"]
   },
   "scripts": {
     "start": "watchify -o dist/obb-frontend.js -v -d .",
