@@ -4,12 +4,16 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 
 module.exports = {
 
-  verifyUsername: function verifyUsername(username, password) {
-    AppDispatcher.dispatch({
+  verifyUsernameData: function verifyUsernameData(username, password) {
+    return {
       actionType: "CurrentUser#verifyUsername",
       username: username,
       password: password
-    });
+    };
+  },
+
+  verifyUsername: function verifyUsername(username, password) {
+    AppDispatcher.dispatch(this.verifyUsernameData(username, password));
   },
 
   logout: function logout() {
