@@ -32,13 +32,13 @@ var LoginPage = React.createClass({
             <div className="form-group">
               <label htmlFor="inputUsername" className="col-lg-2 control-label">Username</label>
               <div className="col-lg-10">
-                <input type="text" className="form-control" disabled={disabled} id="inputUsername" placeholder="Your username..." />
+                <input ref="username" type="text" className="form-control" disabled={disabled} id="inputUsername" placeholder="Your username..." />
               </div>
             </div>
             <div className="form-group">
               <label htmlFor="inputPassword" className="col-lg-2 control-label">Password</label>
               <div className="col-lg-10">
-                <input type="password" className="form-control" disabled={disabled} id="inputPassword" placeholder="Your password..." />
+                <input ref="password" type="password" className="form-control" disabled={disabled} id="inputPassword" placeholder="Your password..." />
               </div>
             </div>
           </fieldset>
@@ -55,7 +55,9 @@ var LoginPage = React.createClass({
 
   onVerify : function(ev) {
     this.setState({verifying: true});
-    CurrentUserActions.verifyUsername("a", "b");
+    var username = this.refs.username.getDOMNode().value;
+    var password = this.refs.password.getDOMNode().value;
+    CurrentUserActions.verifyUsername(username, password);
   },
 
   onCancel : function(ev) {

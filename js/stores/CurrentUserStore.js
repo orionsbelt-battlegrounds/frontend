@@ -4,11 +4,19 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
+var currentUser = null;
+
 var CurrentUserStore = assign({}, EventEmitter.prototype, {
 
   verifyUsername: function(action) {
-    console.log("Verify")
-    console.log(action)
+    if(action.username == "donbonifacio") {
+      currentUser = {username:"donbonifacio", token:"waza"};
+    } else if(action.username == "Pyro") {
+      currentUser = {username:"Pyro", token:"waza"};
+    } else {
+      currentUser = null;
+    }
+    console.log(currentUser)
   },
 
   emitChange: function() {
