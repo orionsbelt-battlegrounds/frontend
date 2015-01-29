@@ -1,5 +1,10 @@
 var React = require('react');
 var title = "Orion's Belt BattleGrounds";
+var Router = require('react-router');
+var Route = Router.Route, DefaultRoute = Router.DefaultRoute,
+            Link=Router.Link, RouteHandler = Router.RouteHandler;
+
+var CurrentUserMenu = require('../users/CurrentUserMenu.react.js');
 
 var Header = React.createClass({
   render: function () {
@@ -15,12 +20,12 @@ var Header = React.createClass({
             </button>
           </div>
           <div className="navbar-collapse collapse" id="navbar-main">
-            <ul className="nav navbar-nav">
+          {/*<ul className="nav navbar-nav">
               <li><a href="../help/">Help</a></li>
-            </ul>
+            </ul>*/}
 
             <ul className="nav navbar-nav navbar-right">
-              <li><a href="#login">Login</a></li>
+              <li><CurrentUserMenu /></li>
             </ul>
 
           </div>
