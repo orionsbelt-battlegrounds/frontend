@@ -44,6 +44,20 @@ describe('CurrentUserStore', function() {
     jest.runAllTimers();
 
     expect(emitChange.mock.calls[0][0]).toEqual("CurrentUserChanged");
+
+    var user = CurrentUserStore.getCurrentUser();
+    expect(user).toBeDefined();
+    expect(user.username).toBe("donbonifacio");
+  });
+
+  it('should logout a user', function() {
+    processCurrentUserStore(CurrentUserActions.verifyUsernameData("donbonifacio", "pass"))
+    jest.runAllTimers();
+
+    processCurrentUserStore(CurrentUserActions.logoutData())
+
+    var user = CurrentUserStore.getCurrentUser();
+    expect(user).toBeNull();
   });
 
 });

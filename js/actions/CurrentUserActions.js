@@ -16,10 +16,12 @@ module.exports = {
     AppDispatcher.dispatch(this.verifyUsernameData(username, password));
   },
 
+  logoutData: function logoutData() {
+    return { actionType: "CurrentUser#logout"};
+  },
+
   logout: function logout() {
-    AppDispatcher.dispatch({
-      actionType: "CurrentUser#logout"
-    });
+    AppDispatcher.dispatch(this.logoutData);
   }
 
 };
