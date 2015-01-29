@@ -1,8 +1,13 @@
+"use strict";
+
 var Router = require('react-router');
 var React = require('react');
 var Navigation = Router.Navigation;
 var Route = Router.Route, DefaultRoute = Router.DefaultRoute,
             Link=Router.Link, RouteHandler = Router.RouteHandler;
+
+var CurrentUserActions = require('../../actions/CurrentUserActions.js');
+var CurrentUserStore = require('../../stores/CurrentUserStore.js');
 
 var LoginPage = React.createClass({
 
@@ -50,6 +55,7 @@ var LoginPage = React.createClass({
 
   onVerify : function(ev) {
     this.setState({verifying: true});
+    CurrentUserActions.verifyUsername("a", "b");
   },
 
   onCancel : function(ev) {
