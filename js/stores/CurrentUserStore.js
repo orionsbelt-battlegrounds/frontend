@@ -5,6 +5,7 @@ var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
 var CURRENT_USER_CHANGED_EVENT = "CurrentUserChanged";
+var LOGIN_ERRORS_EVENT = "LoginErrors";
 var currentUser = null;
 
 function setCurrentUser(user) {
@@ -22,6 +23,7 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
       } else if(action.username == "Pyro") {
         setCurrentUser({username:"Pyro", token:"waza"});
       }
+      CurrentUserStore.emitChange(LOGIN_ERRORS_EVENT);
     }, 500);
   },
 
@@ -43,6 +45,14 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
 
   removeChangeListener: function(callback) {
     this.removeListener(CURRENT_USER_CHANGED_EVENT, callback);
+  },
+
+  addLoginErrorsListener: function(callback) {
+    this.on(LOGIN_ERRORS_EVENT, callback);
+  },
+
+  removeLoginErrorsListener: function(callback) {
+    this.removeListener(LOGIN_ERRORS_EVENT, callback);
   }
 
 });

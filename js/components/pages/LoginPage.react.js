@@ -6,6 +6,7 @@ var Navigation = Router.Navigation;
 var Route = Router.Route, DefaultRoute = Router.DefaultRoute,
             Link=Router.Link, RouteHandler = Router.RouteHandler;
 
+var ErrorAlert = require('../common/ErrorAlert.react.js');
 var CurrentUserActions = require('../../actions/CurrentUserActions.js');
 var CurrentUserStore = require('../../stores/CurrentUserStore.js');
 
@@ -19,10 +20,12 @@ var LoginPage = React.createClass({
 
   componentDidMount: function() {
     CurrentUserStore.addChangeListener(this.onCurrentUserChanged);
+    CurrentUserStore.addLoginErrorsListener(this.onLoginErrors);
   },
 
   componentWillUnmount: function() {
     CurrentUserStore.removeChangeListener(this.onCurrentUserChanged);
+    CurrentUserStore.removeLoginErrorsListener(this.onLoginErrors);
   },
 
   render: function () {
@@ -34,6 +37,9 @@ var LoginPage = React.createClass({
 
     return (
       <div className="col-lg-6 well bs-component">
+
+        <ErrorAlert token={this.state.error} />
+
         <form className="form-horizontal">
           <fieldset>
             <legend>Login</legend>
@@ -52,7 +58,7 @@ var LoginPage = React.createClass({
           </fieldset>
 
           <div className="col-lg-10 col-lg-offset-2">
-            <button onClick={this.onCancel} disabled={disabled} className="btn btn-default">Cancel</button>
+            <button onClick={this.onCancel} type="button" disabled={disabled} className="btn btn-default">Cancel</button>
             <button onClick={this.onVerify} type="submit" disabled={disabled} className="btn btn-primary">Login</button>
           </div>
 
@@ -66,6 +72,10 @@ var LoginPage = React.createClass({
     var username = this.refs.username.getDOMNode().value;
     var password = this.refs.password.getDOMNode().value;
     CurrentUserActions.verifyUsername(username, password);
+  },
+
+  onLoginErrors : function(ev) {
+    this.setState({verifying: false, error:"InvalidCredentials"});
   },
 
   onCancel : function(ev) {
