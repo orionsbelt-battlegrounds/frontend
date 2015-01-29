@@ -12,7 +12,7 @@ var Header = React.createClass({
       <div className="navbar navbar-default navbar-fixed-top">
         <div className="container">
           <div className="navbar-header">
-            <a href="/" className="navbar-brand">{title}</a>
+            <Link to="root" className="navbar-brand">{title}</Link>
             <button className="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
