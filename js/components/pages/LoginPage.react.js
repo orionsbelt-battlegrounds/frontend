@@ -8,7 +8,17 @@ var LoginPage = React.createClass({
 
   mixins: [Navigation],
 
+  getInitialState: function() {
+    return {verifying: false};
+  },
+
   render: function () {
+
+    var disabled = "";
+    if(this.state.verifying) {
+      disabled = "disabled";
+    }
+
     return (
       <div className="col-lg-6 well bs-component">
         <form className="form-horizontal">
@@ -17,20 +27,20 @@ var LoginPage = React.createClass({
             <div className="form-group">
               <label htmlFor="inputUsername" className="col-lg-2 control-label">Username</label>
               <div className="col-lg-10">
-                <input type="text" className="form-control" id="inputUsername" placeholder="Your username..." />
+                <input type="text" className="form-control" disabled={disabled} id="inputUsername" placeholder="Your username..." />
               </div>
             </div>
             <div className="form-group">
               <label htmlFor="inputPassword" className="col-lg-2 control-label">Password</label>
               <div className="col-lg-10">
-                <input type="text" className="form-control" id="inputPassword" placeholder="Your password..." />
+                <input type="password" className="form-control" disabled={disabled} id="inputPassword" placeholder="Your password..." />
               </div>
             </div>
           </fieldset>
 
           <div className="col-lg-10 col-lg-offset-2">
-            <button onClick={this.onCancel} className="btn btn-default">Cancel</button>
-            <button type="submit" className="btn btn-primary">Login</button>
+            <button onClick={this.onCancel} disabled={disabled} className="btn btn-default">Cancel</button>
+            <button onClick={this.onVerify} type="submit" disabled={disabled} className="btn btn-primary">Login</button>
           </div>
 
         </form>
@@ -38,9 +48,14 @@ var LoginPage = React.createClass({
     );
   },
 
+  onVerify : function(ev) {
+    this.setState({verifying: true});
+  },
+
   onCancel : function(ev) {
     this.transitionTo('root');
   }
+
 });
 
 module.exports = LoginPage;
