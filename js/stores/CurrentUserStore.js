@@ -22,8 +22,9 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
         setCurrentUser({username:"donbonifacio", token:"waza"});
       } else if(action.username == "Pyro") {
         setCurrentUser({username:"Pyro", token:"waza"});
+      } else {
+        CurrentUserStore.emitChange(LOGIN_ERRORS_EVENT);
       }
-      CurrentUserStore.emitChange(LOGIN_ERRORS_EVENT);
     }, 500);
   },
 

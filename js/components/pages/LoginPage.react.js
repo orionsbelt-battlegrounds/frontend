@@ -46,7 +46,7 @@ var LoginPage = React.createClass({
             <div className="form-group">
               <label htmlFor="inputUsername" className="col-lg-2 control-label">Username</label>
               <div className="col-lg-10">
-                <input ref="username" type="text" className="form-control" disabled={disabled} id="inputUsername" placeholder="Your username..." />
+                <input autoFocus={true} ref="username" type="text" className="form-control" disabled={disabled} id="inputUsername" placeholder="Your username..." />
               </div>
             </div>
             <div className="form-group">
@@ -76,6 +76,7 @@ var LoginPage = React.createClass({
 
   onLoginErrors : function(ev) {
     this.setState({verifying: false, error:"InvalidCredentials"});
+    this.refs.username.getDOMNode().focus();
   },
 
   onCancel : function(ev) {
