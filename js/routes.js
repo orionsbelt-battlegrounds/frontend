@@ -16,8 +16,6 @@ module.exports = (
     <Route name='reception' handler={ReceptionLayout}>
       <Route name='login' path='/login' handler={LoginPage} />
     </Route>
-    <Route name='lobby' path='/' handler={LobbyLayout}>
-      <DefaultRoute handler={OpenGamesPage} />
-    </Route>
+    <Route name='lobby' path='/' handler={LobbyLayout} />
   </Route>
 )
