@@ -8,22 +8,26 @@ var LobbyLayout = React.createClass({
   render: function () {
     return (
       <div className="row">
-      <ul className="nav nav-tabs">
-        <li className="active"><a href="#openGames" data-toggle="tab">Open Games</a></li>
-        <li><a href="#yourGames" data-toggle="tab">Your Games <span className="label label-warning">3 games to play</span></a></li>
-      </ul>
-      <div id="myTabContent" className="tab-content">
-        <div className="tab-pane fade active in" id="openGames">
-          <OpenGames />
+        <div className="col-lg-9">
+          <ul className="nav nav-tabs">
+            <li className="active"><a href="#openGames" data-toggle="tab">Open Games</a></li>
+            <li><a href="#yourGames" data-toggle="tab">Your Games <span className="label label-warning">3 games to play</span></a></li>
+          </ul>
+          <div id="myTabContent" className="tab-content">
+            <div className="tab-pane fade active in" id="openGames">
+              <OpenGames />
+            </div>
+            <div className="tab-pane fade" id="yourGames">
+              your games
+            </div>
+          </div>
         </div>
-        <div className="tab-pane fade" id="yourGames">
-          your games
+        <div className="col-lg-3">
+          <a href="#" className="btn btn-primary">Create game</a>
         </div>
       </div>
-      <RouteHandler/>
-      </div>
-      );
-      }
-      });
+    );
+  }
+});
 
-      module.exports = LobbyLayout;
+module.exports = LobbyLayout;
