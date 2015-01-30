@@ -82,11 +82,11 @@ var LoginPage = React.createClass({
   },
 
   onCancel : function(ev) {
-    this.transitionTo('root');
+    this.transitionTo('lobby');
   },
 
   onCurrentUserChanged: function onChange() {
-    this.transitionTo('root');
+    this.transitionTo('lobby');
   }
 
 });

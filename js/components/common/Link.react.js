@@ -9,11 +9,16 @@ var Route = Router.Route, DefaultRoute = Router.DefaultRoute,
 module.exports = React.createClass({
 
   render: function () {
+    var text = this.props.children || this.props.token;
     if(process.env.NODE_ENV === 'test' ) {
-      return (<a href={this.props.to}>{this.props.to}</a>)
+      return (<a href={this.props.to}>{text}</a>)
     } else {
       return (
-        <Link to={this.props.to}>{this.props.children}</Link>
+        <Link to={this.props.to}
+              className={this.props.className}
+              activeClassName={this.props.activeClassName || "active"}>
+          {text}
+        </Link>
       );
     }
   }
