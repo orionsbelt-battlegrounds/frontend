@@ -8,8 +8,9 @@
     "flux": "^2.0.1",
     "keymirror": "~0.1.0",
     "object-assign": "^1.0.0",
-    "react-router": "^0.11.4",
-    "react": "^0.12.0"
+    "react-router": "^0.11.6",
+    "react": "*",
+    "react-tools": "*"
   },
   "devDependencies": {
     "browserify": "^6.2.0",
@@ -20,10 +21,15 @@
     "watchify": "2.1.1",
     "http-server" : "0.7.4"
   },
+  "jest": {
+    "rootDir": "js",
+    "scriptPreprocessor": "<rootDir>/utils/preprocessor.js",
+    "unmockedModulePathPatterns": ["<rootDir>/../node_modules/react"]
+  },
   "scripts": {
     "start": "watchify -o dist/obb-frontend.js -v -d .",
     "build": "NODE_ENV=production browserify . | uglifyjs -cm > dist/obb-frontend.min.js",
-    "test": "jest"
+    "test": "NODE_ENV=test jest"
   },
   "author": "Pedro Pereira Santos",
   "browserify": {
@@ -31,8 +37,5 @@
       "reactify",
       "envify"
     ]
-  },
-  "jest": {
-    "rootDir": "./js"
   }
 }

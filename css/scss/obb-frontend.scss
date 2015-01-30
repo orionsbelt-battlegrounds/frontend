@@ -1,6 +1,21 @@
 @import "slate-theme/bootstrap";
 @import "slate-theme/bootswatch.min";
 
+@import "compass/utilities/sprites";
+@import "../public/units/*.png";
+@include all-units-sprites;
+
 .bs-docs-section {
   margin-top: 4em;
+}
+
+.navbar-default .navbar-nav > li > a.active {
+  color: #ffffff;
+  background-color: #272b2e;
+}
+
+.units-sprite {
+  width:50px;
+  height:50px;
+  float:left;
 }

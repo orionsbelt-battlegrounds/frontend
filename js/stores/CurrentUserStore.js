@@ -8,9 +8,24 @@ var CURRENT_USER_CHANGED_EVENT = "CurrentUserChanged";
 var LOGIN_ERRORS_EVENT = "LoginErrors";
 var currentUser = null;
 
-function setCurrentUser(user) {
-  currentUser = user;
-  CurrentUserStore.emitChange(CURRENT_USER_CHANGED_EVENT);
+function persistLocalStorage(user) {
+  if(window.localStorage) {
+    if(user) {
+      localStorage["currentUser"] = JSON.stringify(user);
+    } else {
+      localStorage.removeItem("currentUser");
+    }
+  }
+}
+
+function fetchCurrentUser() {
+  if(!currentUser && window.localStorage) {
+    var raw = window.localStorage["currentUser"]
+    if(raw) {
+      currentUser = JSON.parse(window.localStorage["currentUser"]);
+    }
+  }
+  return currentUser;
 }
 
 var CurrentUserStore = assign({}, EventEmitter.prototype, {
@@ -19,9 +34,9 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
     // simulate request
     setTimeout(function() {
       if(action.username == "donbonifacio") {
-        setCurrentUser({username:"donbonifacio", token:"waza"});
+        CurrentUserStore.setCurrentUser({username:"donbonifacio", token:"waza"});
       } else if(action.username == "Pyro") {
-        setCurrentUser({username:"Pyro", token:"waza"});
+        CurrentUserStore.setCurrentUser({username:"Pyro", token:"waza"});
       } else {
         CurrentUserStore.emitChange(LOGIN_ERRORS_EVENT);
       }
@@ -29,12 +44,19 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
   },
 
   "CurrentUser#logout": function(action) {
-    setCurrentUser(null);
+    this.setCurrentUser(null);
   },
 
   getCurrentUser: function getCurrentUser() {
-    return currentUser;
+    return fetchCurrentUser();
   },
+
+  setCurrentUser: function setCurrentUser(user) {
+    currentUser = user;
+    persistLocalStorage(user);
+    this.emitChange(CURRENT_USER_CHANGED_EVENT);
+  },
+
 
   emitChange: function(event) {
     this.emit(event);

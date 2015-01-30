@@ -2,15 +2,14 @@
 
 var Router = require('react-router');
 var React = require('react');
-var Route = Router.Route, DefaultRoute = Router.DefaultRoute,
-            Link=Router.Link, RouteHandler = Router.RouteHandler;
 
+var Link = require('../common/Link.react.js');
 var CurrentUserActions = require('../../actions/CurrentUserActions.js');
 var CurrentUserStore = require('../../stores/CurrentUserStore.js');
 
 function renderGoLogin() {
   return (
-    <li>
+    <li className="noUser">
       <Link to="login">Login</Link>
     </li>
   );
@@ -18,7 +17,7 @@ function renderGoLogin() {
 
 function renderUserMenu(component) {
   return (
-    <li>
+    <li className="withUser">
       <a href="#" className="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">{CurrentUserStore.getCurrentUser().username} <b className="caret"></b></a>
       <ul className="dropdown-menu">
         <li><a href="#">Profile</a></li>
