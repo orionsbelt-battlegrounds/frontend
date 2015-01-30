@@ -1,12 +1,9 @@
 "use strict";
 
 var React = require('react');
+var ProfileLink = require('../../components/common/ProfileLink.react.js');
 
 var OpenGames = React.createClass({
-
-  getInitialState: function() {
-    return {};
-  },
 
   render: function () {
 
@@ -24,7 +21,7 @@ var OpenGames = React.createClass({
         </thead>
         <tbody>
           <tr>
-            <td>ShadowKnight</td>
+            <td><ProfileLink username="ShadowKnight" /></td>
             <td>1400</td>
             <td>
               <div className="units-sprite units-raptor_n"></div>
@@ -36,7 +33,7 @@ var OpenGames = React.createClass({
             <td><a href="#" className="btn btn-info">Join</a></td>
           </tr>
           <tr>
-            <td>Pyro</td>
+            <td><ProfileLink username="Pyro" /></td>
             <td>1400</td>
             <td>
               <div className="units-sprite units-bozer_n"></div>
@@ -53,7 +50,7 @@ var OpenGames = React.createClass({
             <td><a href="#" className="btn btn-info">Join</a></td>
           </tr>
           <tr>
-            <td>donbonifacio</td>
+            <td><ProfileLink username="donbonifacio" /></td>
             <td>1500</td>
             <td>
               <div className="units-sprite units-rain_n"></div>

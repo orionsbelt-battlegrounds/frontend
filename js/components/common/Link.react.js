@@ -16,6 +16,7 @@ module.exports = React.createClass({
       return (
         <Link to={this.props.to}
               className={this.props.className}
+              params={this.props.params}
               activeClassName={this.props.activeClassName || "active"}>
           {text}
         </Link>
