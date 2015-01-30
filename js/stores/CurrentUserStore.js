@@ -34,9 +34,9 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
     // simulate request
     setTimeout(function() {
       if(action.username == "donbonifacio") {
-        CurrentUserStore.setCurrentUser({username:"donbonifacio", token:"waza"});
+        CurrentUserStore.setCurrentUser({username:"donbonifacio", token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkb25ib25pZmFjaW8iLCJleHAiOjE0MjM0ODk4NTksImlhdCI6MTQyMjYyNTg1OX0.5fFedaFXik7rbEdIPeHgdV7JkdFbginVQUkilYtZ1DU"});
       } else if(action.username == "Pyro") {
-        CurrentUserStore.setCurrentUser({username:"Pyro", token:"waza"});
+        CurrentUserStore.setCurrentUser({username:"Pyro", token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJQeXJvIiwiZXhwIjoxNDIzNDg5OTI1LCJpYXQiOjE0MjI2MjU5MjV9.czpW-wXHq9Cgp6-8Hs1mHe9dzXAx2Gz7m4vbzpyDPtI"});
       } else {
         CurrentUserStore.emitChange(LOGIN_ERRORS_EVENT);
       }
