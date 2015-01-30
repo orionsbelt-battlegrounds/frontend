@@ -21,7 +21,7 @@ module.exports = {
   },
 
   logout: function logout() {
-    AppDispatcher.dispatch(this.logoutData);
+    AppDispatcher.dispatch(this.logoutData());
   }
 
 };

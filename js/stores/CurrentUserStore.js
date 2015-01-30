@@ -8,9 +8,30 @@ var CURRENT_USER_CHANGED_EVENT = "CurrentUserChanged";
 var LOGIN_ERRORS_EVENT = "LoginErrors";
 var currentUser = null;
 
+function persistLocalStorage(user) {
+  if(window.localStorage) {
+    if(user) {
+      localStorage["currentUser"] = JSON.stringify(user);
+    } else {
+      localStorage.removeItem("currentUser");
+    }
+  }
+}
+
 function setCurrentUser(user) {
   currentUser = user;
+  persistLocalStorage(user);
   CurrentUserStore.emitChange(CURRENT_USER_CHANGED_EVENT);
+}
+
+function fetchCurrentUser() {
+  if(!currentUser && window.localStorage) {
+    var raw = window.localStorage["currentUser"]
+    if(raw) {
+      currentUser = JSON.parse(window.localStorage["currentUser"]);
+    }
+  }
+  return currentUser;
 }
 
 var CurrentUserStore = assign({}, EventEmitter.prototype, {
@@ -33,7 +54,7 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
   },
 
   getCurrentUser: function getCurrentUser() {
-    return currentUser;
+    return fetchCurrentUser();
   },
 
   emitChange: function(event) {
