@@ -36,33 +36,35 @@ var LoginPage = React.createClass({
     }
 
     return (
-      <div className="col-lg-6 well bs-component">
+      <div className="row">
+        <div className="col-lg-6 well bs-component">
 
-        <ErrorAlert token={this.state.error} />
+          <ErrorAlert token={this.state.error} />
 
-        <form className="form-horizontal">
-          <fieldset>
-            <legend>Login</legend>
-            <div className="form-group">
-              <label htmlFor="inputUsername" className="col-lg-2 control-label">Username</label>
-              <div className="col-lg-10">
-                <input autoFocus={true} ref="username" type="text" className="form-control" disabled={disabled} id="inputUsername" placeholder="Your username..." />
+          <form className="form-horizontal">
+            <fieldset>
+              <legend>Login</legend>
+              <div className="form-group">
+                <label htmlFor="inputUsername" className="col-lg-2 control-label">Username</label>
+                <div className="col-lg-10">
+                  <input autoFocus={true} ref="username" type="text" className="form-control" disabled={disabled} id="inputUsername" placeholder="Your username..." />
+                </div>
               </div>
-            </div>
-            <div className="form-group">
-              <label htmlFor="inputPassword" className="col-lg-2 control-label">Password</label>
-              <div className="col-lg-10">
-                <input ref="password" type="password" className="form-control" disabled={disabled} id="inputPassword" placeholder="Your password..." />
+              <div className="form-group">
+                <label htmlFor="inputPassword" className="col-lg-2 control-label">Password</label>
+                <div className="col-lg-10">
+                  <input ref="password" type="password" className="form-control" disabled={disabled} id="inputPassword" placeholder="Your password..." />
+                </div>
               </div>
+            </fieldset>
+
+            <div className="col-lg-10 col-lg-offset-2">
+              <button onClick={this.onCancel} type="button" disabled={disabled} className="btn btn-default">Cancel</button>
+              <button onClick={this.onVerify} type="submit" disabled={disabled} className="btn btn-primary">Login</button>
             </div>
-          </fieldset>
 
-          <div className="col-lg-10 col-lg-offset-2">
-            <button onClick={this.onCancel} type="button" disabled={disabled} className="btn btn-default">Cancel</button>
-            <button onClick={this.onVerify} type="submit" disabled={disabled} className="btn btn-primary">Login</button>
-          </div>
-
-        </form>
+          </form>
+        </div>
       </div>
     );
   },
