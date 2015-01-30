@@ -4,7 +4,7 @@
 # Global deps
 #
 sudo apt-get update
-sudo apt-get install -y make g++ ruby
+sudo apt-get install -y make g++ ruby libpng-dev
 sudo gem install compass
 
 #
@@ -15,6 +15,15 @@ export NVM_DIR="/home/vagrant/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 nvm install stable
 nvm alias default stable
+
+#
+# Install pngquant
+#
+wget https://github.com/pornel/pngquant/tarball/2.3.3
+tar -xzvf 2.3.3
+cd pornel-pngquant-730d09a
+make
+sudo make install
 
 #
 # Install project deps

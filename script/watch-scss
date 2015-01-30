@@ -1,3 +1,5 @@
 #!/bin/bash -e
 
-compass watch --poll --sass-dir=css/scss/ --css-dir=dist/
+compass watch --poll --sass-dir=css/scss/ \
+                     --css-dir=dist/ \
+                     --images-dir=public/

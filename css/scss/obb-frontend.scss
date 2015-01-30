@@ -1,6 +1,10 @@
 @import "slate-theme/bootstrap";
 @import "slate-theme/bootswatch.min";
 
+@import "compass/utilities/sprites";
+@import "../public/units/*.png";
+@include all-units-sprites;
+
 .bs-docs-section {
   margin-top: 4em;
 }

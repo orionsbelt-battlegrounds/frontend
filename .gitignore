@@ -33,3 +33,4 @@ js/.bundle.js
 js/bundle.js
 dist/obb-frontend.css
 dist/obb-frontend.js
+.DS_Store
