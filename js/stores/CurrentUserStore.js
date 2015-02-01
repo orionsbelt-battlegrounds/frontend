@@ -6,6 +6,7 @@ var assign = require('object-assign');
 
 var CURRENT_USER_CHANGED_EVENT = "CurrentUserChanged";
 var LOGIN_ERRORS_EVENT = "LoginErrors";
+var anonRegex = new RegExp('^anonymous', 'i');
 var currentUser = null;
 
 function persistLocalStorage(user) {
@@ -45,6 +46,14 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
 
   "CurrentUser#logout": function(action) {
     this.setCurrentUser(null);
+  },
+
+  isUserAuthenticated: function isUserAuthenticated() {
+    var user = this.getCurrentUser();
+    if(user && !anonRegex.test(user.username)) {
+      return true;
+    }
+    return false
   },
 
   getCurrentUser: function getCurrentUser() {

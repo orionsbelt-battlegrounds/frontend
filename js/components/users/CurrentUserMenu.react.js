@@ -29,10 +29,17 @@ function renderUserMenu(component) {
   );
 }
 
+function gatherState() {
+  return {
+    authedUser : CurrentUserStore.isUserAuthenticated(),
+    user: CurrentUserStore.getCurrentUser()
+  };
+}
+
 module.exports = React.createClass({
 
   getInitialState: function() {
-    return {user : CurrentUserStore.getCurrentUser()};
+    return gatherState();
   },
 
   componentDidMount: function() {
@@ -44,11 +51,11 @@ module.exports = React.createClass({
   },
 
   onCurrentUserChanged: function onChange() {
-    this.setState({user:CurrentUserStore.getCurrentUser()});
+    this.setState(gatherState());
   },
 
   render: function () {
-    if(this.state.user) {
+    if(this.state.authedUser) {
       return renderUserMenu(this);
     } else {
       return renderGoLogin();
