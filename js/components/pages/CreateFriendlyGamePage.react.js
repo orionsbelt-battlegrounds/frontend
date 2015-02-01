@@ -4,6 +4,8 @@ var React = require('react');
 var Router = require('react-router');
 var Navigation = Router.Navigation;
 var ErrorAlert = require('../common/ErrorAlert.react.js');
+var GameActions = require('../../actions/GameActions.js');
+var GameStore = require('../../stores/GameStore.js');
 
 var CreateFriendlyGamePage = React.createClass({
 
@@ -11,6 +13,14 @@ var CreateFriendlyGamePage = React.createClass({
 
   getInitialState: function() {
     return {creating: false};
+  },
+
+  componentDidMount: function() {
+    GameStore.addGameCreatedListener(this.onGameCreated);
+  },
+
+  componentWillUnmount: function() {
+    GameStore.removeGameCreatedListener(this.onGameCreated);
   },
 
   render: function () {
@@ -47,6 +57,7 @@ var CreateFriendlyGamePage = React.createClass({
   },
 
   onCreate : function(ev) {
+    GameActions.createFriendly();
   },
 
   onGameCreated: function(game) {
