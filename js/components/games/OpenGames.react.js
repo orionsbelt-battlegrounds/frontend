@@ -24,9 +24,11 @@ var OpenGames = React.createClass({
             <td><ProfileLink username="ShadowKnight" /></td>
             <td>1400</td>
             <td>
-              <div className="units-sprite units-raptor_n"></div>
-              <div className="units-sprite units-nova_n"></div>
-              <div className="units-sprite units-heavyseeker_n"></div>
+              <div className="terrainPreview rock">
+                <div className="units-small-sprite units-small-raptor_n"></div>
+                <div className="units-small-sprite units-small-nova_n"></div>
+                <div className="units-small-sprite units-small-heavyseeker_n"></div>
+              </div>
             </td>
             <td>Regicide</td>
             <td>Casual</td>
@@ -36,14 +38,16 @@ var OpenGames = React.createClass({
             <td><ProfileLink username="Pyro" /></td>
             <td>1400</td>
             <td>
-              <div className="units-sprite units-bozer_n"></div>
-              <div className="units-sprite units-krill_n"></div>
-              <div className="units-sprite units-pretorian_n"></div>
-              <div className="units-sprite units-spider_n"></div>
-              <div className="units-sprite units-toxic_n"></div>
-              <div className="units-sprite units-eagle_n"></div>
-              <div className="units-sprite units-fenix_n"></div>
-              <div className="units-sprite units-kahuna_n"></div>
+              <div className="terrainPreview terrest">
+                <div className="units-small-sprite units-small-bozer_n"></div>
+                <div className="units-small-sprite units-small-krill_n"></div>
+                <div className="units-small-sprite units-small-pretorian_n"></div>
+                <div className="units-small-sprite units-small-spider_n"></div>
+                <div className="units-small-sprite units-small-toxic_n"></div>
+                <div className="units-small-sprite units-small-eagle_n"></div>
+                <div className="units-small-sprite units-small-fenix_n"></div>
+                <div className="units-small-sprite units-small-kahuna_n"></div>
+              </div>
             </td>
             <td>Regicide</td>
             <td>Casual</td>
@@ -53,11 +57,13 @@ var OpenGames = React.createClass({
             <td><ProfileLink username="donbonifacio" /></td>
             <td>1500</td>
             <td>
-              <div className="units-sprite units-rain_n"></div>
-              <div className="units-sprite units-crusader_n"></div>
-              <div className="units-sprite units-doomer_n"></div>
-              <div className="units-sprite units-spider_n"></div>
-              <div className="units-sprite units-toxic_n"></div>
+              <div className="terrainPreview ice">
+                <div className="units-small-sprite units-small-rain_n"></div>
+                <div className="units-small-sprite units-small-crusader_n"></div>
+                <div className="units-small-sprite units-small-doomer_n"></div>
+                <div className="units-small-sprite units-small-spider_n"></div>
+                <div className="units-small-sprite units-small-toxic_n"></div>
+              </div>
             </td>
             <td>Regicide</td>
             <td>Casual</td>

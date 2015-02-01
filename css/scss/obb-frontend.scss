@@ -5,6 +5,10 @@
 @import "../public/units/*.png";
 @include all-units-sprites;
 
+@import "compass/utilities/sprites";
+@import "../public/units-small/*.png";
+@include all-units-small-sprites;
+
 .bs-docs-section {
   margin-top: 4em;
 }
@@ -18,4 +22,41 @@
   width:50px;
   height:50px;
   float:left;
+}
+
+.units-small-sprite {
+  width:28px;
+  height:28px;
+  float:left;
+}
+
+.terrainPreview {
+  background-position: -15px -15px;
+  width: 100%;
+  height: 35px;
+  padding: 3px;
+}
+
+.ice {
+  background-image: url("/public/terrains/ice.jpg");
+}
+
+.desert {
+  background-image: url("/public/terrains/desert.jpg");
+}
+
+.water {
+  background-image: url("/public/terrains/water.jpg");
+}
+
+.terrest {
+  background-image: url("/public/terrains/terrest.jpg");
+}
+
+.rock {
+  background-image: url("/public/terrains/rock.jpg");
+}
+
+.forest {
+  background-image: url("/public/terrains/forest.jpg");
 }

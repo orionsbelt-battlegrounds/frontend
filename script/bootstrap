@@ -4,7 +4,7 @@
 # Global deps
 #
 sudo apt-get update
-sudo apt-get install -y make g++ ruby libpng-dev
+sudo apt-get install -y make g++ ruby libpng-dev imagemagick
 sudo gem install compass
 
 #
