@@ -6,6 +6,7 @@ var assign = require('object-assign');
 
 var CURRENT_USER_CHANGED_EVENT = "CurrentUserChanged";
 var LOGIN_ERRORS_EVENT = "LoginErrors";
+var anonRegex = new RegExp('^anonymous', 'i');
 var currentUser = null;
 
 function persistLocalStorage(user) {
@@ -24,6 +25,12 @@ function fetchCurrentUser() {
     if(raw) {
       currentUser = JSON.parse(window.localStorage["currentUser"]);
     }
+  }
+  if(!currentUser) {
+    currentUser = {
+      username: "Anonymous+" + (new Date().getTime()) + "-" + (Math.random().toString(36).replace(/[^a-z]+/g, '')),
+      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBbm9ueW1vdXMiLCJleHAiOjE0MjM2NjY4MzUsImlhdCI6MTQyMjgwMjgzNX0.92bT3Yy7Jx9rKDWbQRorQJOQxpqGJTTCeuyK35mb5-o"
+    };
   }
   return currentUser;
 }
@@ -45,6 +52,14 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
 
   "CurrentUser#logout": function(action) {
     this.setCurrentUser(null);
+  },
+
+  isUserAuthenticated: function isUserAuthenticated() {
+    var user = this.getCurrentUser();
+    if(user && !anonRegex.test(user.username)) {
+      return true;
+    }
+    return false
   },
 
   getCurrentUser: function getCurrentUser() {
