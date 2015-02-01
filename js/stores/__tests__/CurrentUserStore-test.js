@@ -32,6 +32,7 @@ describe('CurrentUserStore', function() {
     jest.runAllTimers();
 
     expect(emitChange.mock.calls[0][0]).toEqual("LoginErrors");
+    expect(CurrentUserStore.isUserAuthenticated()).toBe(false);
   });
 
   it('should succeed for a valid user', function() {
@@ -48,6 +49,7 @@ describe('CurrentUserStore', function() {
     var user = CurrentUserStore.getCurrentUser();
     expect(user).toBeDefined();
     expect(user.username).toBe("donbonifacio");
+    expect(CurrentUserStore.isUserAuthenticated()).toBe(true);
   });
 
   it('should logout a user', function() {
@@ -56,8 +58,7 @@ describe('CurrentUserStore', function() {
 
     processCurrentUserStore(CurrentUserActions.logoutData())
 
-    var user = CurrentUserStore.getCurrentUser();
-    expect(user).toBeNull();
+    expect(CurrentUserStore.isUserAuthenticated()).toBe(false);
   });
 
 });

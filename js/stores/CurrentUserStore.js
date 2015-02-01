@@ -26,6 +26,11 @@ function fetchCurrentUser() {
       currentUser = JSON.parse(window.localStorage["currentUser"]);
     }
   }
+  if(!currentUser) {
+    currentUser = {
+      username: "Anonymous+" + (new Date().getTime()) + "-" + (Math.random().toString(36).replace(/[^a-z]+/g, ''))
+    };
+  }
   return currentUser;
 }
 
