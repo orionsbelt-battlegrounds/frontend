@@ -3,6 +3,7 @@ var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
 
 var OpenGames = require('../games/OpenGames.react.js');
+var Link = require('../common/Link.react.js');
 
 var LobbyLayout = React.createClass({
   render: function () {
@@ -23,7 +24,7 @@ var LobbyLayout = React.createClass({
           </div>
         </div>
         <div className="col-lg-3">
-          <a href="#" className="btn btn-primary">Create game</a>
+          <Link to="createFriendlyGame" className="btn btn-primary">Create game</Link>
         </div>
       </div>
     );
