@@ -46,6 +46,12 @@ var CreateFriendlyGamePage = React.createClass({
     this.transitionTo('lobby');
   },
 
+  onCreate : function(ev) {
+  },
+
+  onGameCreated: function(game) {
+    this.transitionTo('lobby');
+  }
 
 });
 
