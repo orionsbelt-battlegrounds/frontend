@@ -29,3 +29,34 @@
   height:28px;
   float:left;
 }
+
+.terrainPreview {
+  background-position: -15px -15px;
+  width: 100%;
+  height: 35px;
+  padding: 3px;
+}
+
+.ice {
+  background-image: url("/public/terrains/ice.jpg");
+}
+
+.desert {
+  background-image: url("/public/terrains/desert.jpg");
+}
+
+.water {
+  background-image: url("/public/terrains/water.jpg");
+}
+
+.terrest {
+  background-image: url("/public/terrains/terrest.jpg");
+}
+
+.rock {
+  background-image: url("/public/terrains/rock.jpg");
+}
+
+.forest {
+  background-image: url("/public/terrains/forest.jpg");
+}
