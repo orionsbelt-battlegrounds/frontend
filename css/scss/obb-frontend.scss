@@ -5,6 +5,10 @@
 @import "../public/units/*.png";
 @include all-units-sprites;
 
+@import "compass/utilities/sprites";
+@import "../public/units-small/*.png";
+@include all-units-small-sprites;
+
 .bs-docs-section {
   margin-top: 4em;
 }
@@ -17,5 +21,11 @@
 .units-sprite {
   width:50px;
   height:50px;
+  float:left;
+}
+
+.units-small-sprite {
+  width:28px;
+  height:28px;
   float:left;
 }
