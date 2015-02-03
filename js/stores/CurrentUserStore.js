@@ -28,7 +28,7 @@ function fetchCurrentUser() {
   }
   if(!currentUser) {
     currentUser = {
-      username: "Anonymous+" + (new Date().getTime()) + "-" + (Math.random().toString(36).replace(/[^a-z]+/g, '')),
+      username: "anonymous:" + (new Date().getTime()) + "-" + (Math.random().toString(36).replace(/[^a-z]+/g, '')),
       token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBbm9ueW1vdXMiLCJleHAiOjE0MjM2NjY4MzUsImlhdCI6MTQyMjgwMjgzNX0.92bT3Yy7Jx9rKDWbQRorQJOQxpqGJTTCeuyK35mb5-o"
     };
   }
