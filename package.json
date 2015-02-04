@@ -10,7 +10,8 @@
     "object-assign": "^1.0.0",
     "react-router": "^0.11.6",
     "react": "*",
-    "react-tools": "*"
+    "react-tools": "*",
+    "mori": "*"
   },
   "devDependencies": {
     "browserify": "^6.2.0",
