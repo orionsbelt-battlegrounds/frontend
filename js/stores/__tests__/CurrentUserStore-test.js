@@ -3,6 +3,9 @@
 jest.dontMock('../CurrentUserStore.js');
 jest.dontMock('../../actions/CurrentUserActions.js');
 jest.dontMock('object-assign');
+jest.dontMock('mori');
+
+var mori = require('mori');
 
 describe('CurrentUserStore', function() {
 
@@ -48,7 +51,7 @@ describe('CurrentUserStore', function() {
 
     var user = CurrentUserStore.getCurrentUser();
     expect(user).toBeDefined();
-    expect(user.username).toBe("donbonifacio");
+    expect(mori.get(user, "username")).toBe("donbonifacio");
     expect(CurrentUserStore.isUserAuthenticated()).toBe(true);
   });
 
