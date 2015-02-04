@@ -8,7 +8,7 @@ var OpenGames = React.createClass({
   render: function () {
 
     return (
-      <table className="table table-striped table-hover">
+      <table className="table table-striped table-hover gamesPreview">
         <thead>
           <tr>
             <th>Player</th>
@@ -23,7 +23,7 @@ var OpenGames = React.createClass({
           <tr>
             <td><ProfileLink username="ShadowKnight" /></td>
             <td>1400</td>
-            <td>
+            <td className="unitRoaster">
               <div className="terrainPreview rock">
                 <div className="units-small-sprite units-small-raptor_n"></div>
                 <div className="units-small-sprite units-small-nova_n"></div>
@@ -32,12 +32,12 @@ var OpenGames = React.createClass({
             </td>
             <td>Regicide</td>
             <td>Casual</td>
-            <td><a href="#" className="btn btn-info">Join</a></td>
+            <td className="unitRoaster"><a href="#" className="btn btn-info">Join</a></td>
           </tr>
           <tr>
             <td><ProfileLink username="Pyro" /></td>
             <td>1400</td>
-            <td>
+            <td className="unitRoaster">
               <div className="terrainPreview terrest">
                 <div className="units-small-sprite units-small-bozer_n"></div>
                 <div className="units-small-sprite units-small-krill_n"></div>
@@ -51,12 +51,12 @@ var OpenGames = React.createClass({
             </td>
             <td>Regicide</td>
             <td>Casual</td>
-            <td><a href="#" className="btn btn-info">Join</a></td>
+            <td className="unitRoaster"><a href="#" className="btn btn-info">Join</a></td>
           </tr>
           <tr>
             <td><ProfileLink username="donbonifacio" /></td>
             <td>1500</td>
-            <td>
+            <td className="unitRoaster">
               <div className="terrainPreview ice">
                 <div className="units-small-sprite units-small-rain_n"></div>
                 <div className="units-small-sprite units-small-crusader_n"></div>
@@ -67,7 +67,7 @@ var OpenGames = React.createClass({
             </td>
             <td>Regicide</td>
             <td>Casual</td>
-            <td><a href="#" className="btn btn-info">Join</a></td>
+            <td className="unitRoaster"><a href="#" className="btn btn-info">Join</a></td>
           </tr>
         </tbody>
       </table>
