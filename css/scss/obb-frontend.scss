@@ -60,3 +60,11 @@
 .forest {
   background-image: url("/public/terrains/forest.jpg");
 }
+
+table.gamesPreview tr td {
+  padding-top: 20px;
+}
+
+table.gamesPreview tr td.unitRoaster {
+  padding-top: 15px;
+}

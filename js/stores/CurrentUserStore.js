@@ -3,6 +3,8 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
+var mori = require("mori");
+var storage = require("../utils/localStorage.js");
 
 var CURRENT_USER_CHANGED_EVENT = "CurrentUserChanged";
 var LOGIN_ERRORS_EVENT = "LoginErrors";
@@ -10,27 +12,18 @@ var anonRegex = new RegExp('^anonymous', 'i');
 var currentUser = null;
 
 function persistLocalStorage(user) {
-  if(window.localStorage) {
-    if(user) {
-      localStorage["currentUser"] = JSON.stringify(user);
-    } else {
-      localStorage.removeItem("currentUser");
-    }
-  }
+  storage.store("currentUser", user)
 }
 
 function fetchCurrentUser() {
-  if(!currentUser && window.localStorage) {
-    var raw = window.localStorage["currentUser"]
-    if(raw) {
-      currentUser = JSON.parse(window.localStorage["currentUser"]);
-    }
+  if(!currentUser) {
+    currentUser = storage.retrieve("currentUser")
   }
   if(!currentUser) {
-    currentUser = {
-      username: "Anonymous+" + (new Date().getTime()) + "-" + (Math.random().toString(36).replace(/[^a-z]+/g, '')),
+    currentUser = mori.toClj({
+      username: "anonymous:" + (new Date().getTime()) + "-" + (Math.random().toString(36).replace(/[^a-z]+/g, '')),
       token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBbm9ueW1vdXMiLCJleHAiOjE0MjM2NjY4MzUsImlhdCI6MTQyMjgwMjgzNX0.92bT3Yy7Jx9rKDWbQRorQJOQxpqGJTTCeuyK35mb5-o"
-    };
+    });
   }
   return currentUser;
 }
@@ -56,7 +49,11 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
 
   isUserAuthenticated: function isUserAuthenticated() {
     var user = this.getCurrentUser();
-    if(user && !anonRegex.test(user.username)) {
+    if(!user) {
+      return false;
+    }
+    var username = mori.get(user, "username");
+    if(!anonRegex.test(username)) {
       return true;
     }
     return false
@@ -67,11 +64,10 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
   },
 
   setCurrentUser: function setCurrentUser(user) {
-    currentUser = user;
+    currentUser = mori.toClj(user);
     persistLocalStorage(user);
     this.emitChange(CURRENT_USER_CHANGED_EVENT);
   },
-
 
   emitChange: function(event) {
     this.emit(event);

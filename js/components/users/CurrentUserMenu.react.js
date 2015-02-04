@@ -2,6 +2,7 @@
 
 var Router = require('react-router');
 var React = require('react');
+var mori = require("mori");
 
 var Link = require('../common/Link.react.js');
 var CurrentUserActions = require('../../actions/CurrentUserActions.js');
@@ -17,11 +18,12 @@ function renderGoLogin() {
 }
 
 function renderUserMenu(component) {
+  var username = mori.get(component.state.user, "username");
   return (
     <li className="withUser">
-      <a href="#" className="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">{CurrentUserStore.getCurrentUser().username} <b className="caret"></b></a>
+      <a href="#" className="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">{username} <b className="caret"></b></a>
       <ul className="dropdown-menu">
-        <li><ProfileLink token="Profile" username={component.state.user.username} /></li>
+        <li><ProfileLink token="Profile" username={username} /></li>
         <li className="divider"></li>
         <li><a onClick={component.onLogout} href="#">Logout</a></li>
       </ul>
