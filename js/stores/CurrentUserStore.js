@@ -3,7 +3,7 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
-var mori = require("mori");
+var _ = require("mori");
 var debounce = require('debounce');
 var storage = require("../utils/localStorage.js");
 
@@ -63,7 +63,7 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
     if(!user) {
       return false;
     }
-    var username = mori.get(user, "username");
+    var username = _.get(user, "username");
     if(!anonRegex.test(username)) {
       return true;
     }
@@ -75,7 +75,7 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
   },
 
   setCurrentUser: function setCurrentUser(user) {
-    currentUser = mori.toClj(user);
+    currentUser = _.toClj(user);
     persistLocalStorage(user);
     this.emitChange(CURRENT_USER_CHANGED_EVENT);
   },
