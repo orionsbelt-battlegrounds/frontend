@@ -4,6 +4,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 var mori = require("mori");
+var debounce = require('debounce');
 var storage = require("../utils/localStorage.js");
 
 var CURRENT_USER_CHANGED_EVENT = "CurrentUserChanged";
@@ -15,15 +16,23 @@ function persistLocalStorage(user) {
   storage.store("currentUser", user)
 }
 
+var prepareAnonymousUser = debounce(function prepareAnonymousUser() {
+  var anonUsername = "anonymous:" + (new Date().getTime()) + "-" + (Math.random().toString(36).replace(/[^a-z]+/g, ''));
+  var url = "http://api.orionsbelt.eu/auth/anonymize?username=" + anonUsername;
+  $.getJSON(url, function onAnonymize(data) {
+    CurrentUserStore.setCurrentUser({
+      username: anonUsername,
+      token: data.token
+    });
+  });
+}, 1000, true);
+
 function fetchCurrentUser() {
   if(!currentUser) {
     currentUser = storage.retrieve("currentUser")
   }
   if(!currentUser) {
-    currentUser = mori.toClj({
-      username: "anonymous:" + (new Date().getTime()) + "-" + (Math.random().toString(36).replace(/[^a-z]+/g, '')),
-      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBbm9ueW1vdXMiLCJleHAiOjE0MjM2NjY4MzUsImlhdCI6MTQyMjgwMjgzNX0.92bT3Yy7Jx9rKDWbQRorQJOQxpqGJTTCeuyK35mb5-o"
-    });
+    prepareAnonymousUser();
   }
   return currentUser;
 }
