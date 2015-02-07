@@ -12,7 +12,6 @@ function makeAnonymousRequest(path, callback) {
 function postRequest(user, path, data, callback) {
   var url = OBB_API_URL + path;
   if(window['$']) {
-    console.log(data)
     $.ajax({
       type: "POST",
       url: url,

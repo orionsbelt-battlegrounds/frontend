@@ -61,7 +61,6 @@ var CreateFriendlyGamePage = React.createClass({
   },
 
   onGameCreated: function(game) {
-    console.log(game)
     this.transitionTo('lobby');
   }
 
