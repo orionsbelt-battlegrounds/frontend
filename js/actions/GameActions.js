@@ -7,7 +7,7 @@ var _ = require("mori");
 module.exports = {
 
   createFriendlyData: function createFriendlyData(user) {
-    return _.toclj({
+    return _.toClj({
       actionType : "GameStore#createFriendly",
       user : user
     });
