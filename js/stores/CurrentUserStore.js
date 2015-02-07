@@ -6,6 +6,7 @@ var assign = require('object-assign');
 var _ = require("mori");
 var debounce = require('debounce');
 var storage = require("../utils/localStorage.js");
+var gateway = require("../utils/gateway.js");
 
 var CURRENT_USER_CHANGED_EVENT = "CurrentUserChanged";
 var LOGIN_ERRORS_EVENT = "LoginErrors";
@@ -18,15 +19,12 @@ function persistLocalStorage(user) {
 
 var prepareAnonymousUser = debounce(function prepareAnonymousUser() {
   var anonUsername = "anonymous:" + (new Date().getTime()) + "-" + (Math.random().toString(36).replace(/[^a-z]+/g, ''));
-  var url = "http://api.orionsbelt.eu/auth/anonymize?username=" + anonUsername;
-  if(window['$']) {
-    $.getJSON(url, function onAnonymize(data) {
-      CurrentUserStore.setCurrentUser({
-        username: anonUsername,
-        token: data.token
-      });
+  gateway.anonymize(anonUsername, function onAnonymize(data) {
+    CurrentUserStore.setCurrentUser({
+      username: anonUsername,
+      token: data.token
     });
-  }
+  });
 }, 1000, true);
 
 function fetchCurrentUser() {
