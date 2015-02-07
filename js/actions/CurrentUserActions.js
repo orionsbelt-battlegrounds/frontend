@@ -3,14 +3,14 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var _ = require("mori");
 
-var LOGOUT_DATA = _.toClj({ actionType: "CurrentUser#logout"});
-var VERIFY_USERNAME_DATA = _.toClj({actionType: "CurrentUser#verifyUsername"});
-
 module.exports = {
 
   verifyUsernameData: function verifyUsernameData(username, password) {
-    var withUser = _.assoc(VERIFY_USERNAME_DATA, "username", username);
-    return _.assoc(withUser, "password", password);
+    return _.toClj({
+      actionType: "CurrentUser#verifyUsername",
+      username : username,
+      password : password
+    });
   },
 
   verifyUsername: function verifyUsername(username, password) {
@@ -18,7 +18,7 @@ module.exports = {
   },
 
   logoutData: function logoutData() {
-    return LOGOUT_DATA;
+    return _.toClj({ actionType: "CurrentUser#logout"});
   },
 
   logout: function logout() {
