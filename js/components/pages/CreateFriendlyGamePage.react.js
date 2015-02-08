@@ -36,17 +36,15 @@ var CreateFriendlyGamePage = React.createClass({
 
           <ErrorAlert token={this.state.error} />
 
-          <form className="form-horizontal">
             <fieldset>
               <legend>Create friendly game</legend>
             </fieldset>
 
             <div className="col-lg-10 col-lg-offset-2">
               <button onClick={this.onCancel} type="button" disabled={disabled} className="btn btn-default">Cancel</button>
-              <button onClick={this.onCreate} type="submit" disabled={disabled} className="btn btn-primary">Create game</button>
+              <button onClick={this.onCreate} type="button" disabled={disabled} className="btn btn-primary">Create game</button>
             </div>
 
-          </form>
         </div>
       </div>
     );
@@ -57,6 +55,7 @@ var CreateFriendlyGamePage = React.createClass({
   },
 
   onCreate : function(ev) {
+    this.setState({creating: false});
     GameActions.createFriendly();
   },
 
