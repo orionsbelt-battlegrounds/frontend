@@ -11,7 +11,8 @@
     "react-router": "^0.11.6",
     "react": "*",
     "react-tools": "*",
-    "mori": "*"
+    "mori": "*",
+    "debounce": ""
   },
   "devDependencies": {
     "browserify": "^6.2.0",

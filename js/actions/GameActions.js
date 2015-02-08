@@ -2,14 +2,15 @@
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var CurrentUserStore = require('../stores/CurrentUserStore');
+var _ = require("mori");
 
 module.exports = {
 
   createFriendlyData: function createFriendlyData(user) {
-    return {
-      actionType: "GameStore#createFriendly",
-      user: CurrentUserStore.getCurrentUser()
-    };
+    return _.toClj({
+      actionType : "GameStore#createFriendly",
+      user : user
+    });
   },
 
   createFriendly: function createFriendly() {

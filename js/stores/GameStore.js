@@ -3,13 +3,19 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
+var _ = require("mori");
+var gateway = require("../utils/gateway.js");
+var CurrentUserStore = require("./CurrentUserStore.js");
 
 var GAME_CREATED_EVENT = "GameStore#GameCreated";
 
 var GameStore = assign({}, EventEmitter.prototype, {
 
   "GameStore#createFriendly": function(action) {
-    this.emit(GAME_CREATED_EVENT);
+    var user = CurrentUserStore.getCurrentUser();
+    gateway.createFriendly(user, {}, function afterCreate(game) {
+      GameStore.emit(GAME_CREATED_EVENT, _.toClj(game));
+    });
   },
 
   emitChange: function(event) {
@@ -27,8 +33,9 @@ var GameStore = assign({}, EventEmitter.prototype, {
 });
 
 AppDispatcher.register(function(action) {
-  if(GameStore[action.actionType]) {
-    GameStore[action.actionType](action);
+  var actionType = _.get(action, "actionType");
+  if(GameStore[actionType]) {
+    GameStore[actionType](action);
   }
 });
 

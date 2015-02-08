@@ -1,11 +1,34 @@
 "use strict";
 
+var _ = require('mori');
 var React = require('react');
+var GamesStore = require('../../stores/GamesStore.js');
 var ProfileLink = require('../../components/common/ProfileLink.react.js');
+var LobbyGameTr = require('./LobbyGameTr.react.js');
 
 var OpenGames = React.createClass({
 
-  render: function () {
+  getInitialState: function() {
+    return {games:GamesStore.getLobbyGames()};
+  },
+
+  componentDidMount: function() {
+    GamesStore.addLobbyUpdatedListener(this.onLobbyChanged);
+  },
+
+  componentWillUnmount: function() {
+    GamesStore.removeLobbyUpdatedListener(this.onLobbyChanged);
+  },
+
+  onLobbyChanged: function onLobbyChanges(games) {
+    this.setState({games:games});
+  },
+
+  render: function() {
+
+    var rows = _.toJs(_.map(function(game) {
+      return <LobbyGameTr key={_.get(game, "_id")} game={game} />
+    }, this.state.games));
 
     return (
       <table className="table table-striped table-hover gamesPreview">
@@ -20,55 +43,7 @@ var OpenGames = React.createClass({
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><ProfileLink username="ShadowKnight" /></td>
-            <td>1400</td>
-            <td className="unitRoaster">
-              <div className="terrainPreview rock">
-                <div className="units-small-sprite units-small-raptor_n"></div>
-                <div className="units-small-sprite units-small-nova_n"></div>
-                <div className="units-small-sprite units-small-heavyseeker_n"></div>
-              </div>
-            </td>
-            <td>Regicide</td>
-            <td>Casual</td>
-            <td className="unitRoaster"><a href="#" className="btn btn-info">Join</a></td>
-          </tr>
-          <tr>
-            <td><ProfileLink username="Pyro" /></td>
-            <td>1400</td>
-            <td className="unitRoaster">
-              <div className="terrainPreview terrest">
-                <div className="units-small-sprite units-small-bozer_n"></div>
-                <div className="units-small-sprite units-small-krill_n"></div>
-                <div className="units-small-sprite units-small-pretorian_n"></div>
-                <div className="units-small-sprite units-small-spider_n"></div>
-                <div className="units-small-sprite units-small-toxic_n"></div>
-                <div className="units-small-sprite units-small-eagle_n"></div>
-                <div className="units-small-sprite units-small-fenix_n"></div>
-                <div className="units-small-sprite units-small-kahuna_n"></div>
-              </div>
-            </td>
-            <td>Regicide</td>
-            <td>Casual</td>
-            <td className="unitRoaster"><a href="#" className="btn btn-info">Join</a></td>
-          </tr>
-          <tr>
-            <td><ProfileLink username="donbonifacio" /></td>
-            <td>1500</td>
-            <td className="unitRoaster">
-              <div className="terrainPreview ice">
-                <div className="units-small-sprite units-small-rain_n"></div>
-                <div className="units-small-sprite units-small-crusader_n"></div>
-                <div className="units-small-sprite units-small-doomer_n"></div>
-                <div className="units-small-sprite units-small-spider_n"></div>
-                <div className="units-small-sprite units-small-toxic_n"></div>
-              </div>
-            </td>
-            <td>Regicide</td>
-            <td>Casual</td>
-            <td className="unitRoaster"><a href="#" className="btn btn-info">Join</a></td>
-          </tr>
+          {rows}
         </tbody>
       </table>
     );

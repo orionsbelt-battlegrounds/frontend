@@ -3,22 +3,26 @@ var mori = require("mori");
 module.exports = {
 
   store: function(key, jsObj) {
-    if(!window.localStore) {
+    if(!window.localStorage) {
       return;
     }
-    if(user) {
+    if(jsObj) {
       window.localStorage[key] = JSON.stringify(mori.toJs(jsObj));
     } else {
-      window.localStorage.removeItem("currentUser");
+      window.localStorage.removeItem(key);
     }
   },
 
   retrieve: function(key) {
-    if(!window.localStore) {
+    if(!window.localStorage) {
       return null;
     }
-    var jsObj = JSON.parse(window.localStorage[key]);
-    return mori.toClj(jsObj);
+    var raw = window.localStorage[key];
+    if(raw) {
+      var jsObj = JSON.parse(raw);
+      return mori.toClj(jsObj);
+    }
+    return null
   }
 
 };

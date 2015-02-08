@@ -1,15 +1,16 @@
 'use strict';
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
+var _ = require("mori");
 
 module.exports = {
 
   verifyUsernameData: function verifyUsernameData(username, password) {
-    return {
+    return _.toClj({
       actionType: "CurrentUser#verifyUsername",
-      username: username,
-      password: password
-    };
+      username : username,
+      password : password
+    });
   },
 
   verifyUsername: function verifyUsername(username, password) {
@@ -17,7 +18,7 @@ module.exports = {
   },
 
   logoutData: function logoutData() {
-    return { actionType: "CurrentUser#logout"};
+    return _.toClj({ actionType: "CurrentUser#logout"});
   },
 
   logout: function logout() {

@@ -3,8 +3,10 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
-var mori = require("mori");
+var _ = require("mori");
+var debounce = require('debounce');
 var storage = require("../utils/localStorage.js");
+var gateway = require("../utils/gateway.js");
 
 var CURRENT_USER_CHANGED_EVENT = "CurrentUserChanged";
 var LOGIN_ERRORS_EVENT = "LoginErrors";
@@ -15,15 +17,22 @@ function persistLocalStorage(user) {
   storage.store("currentUser", user)
 }
 
+var prepareAnonymousUser = debounce(function prepareAnonymousUser() {
+  var anonUsername = "anonymous:" + (new Date().getTime()) + "-" + (Math.random().toString(36).replace(/[^a-z]+/g, ''));
+  gateway.anonymize(anonUsername, function onAnonymize(data) {
+    CurrentUserStore.setCurrentUser({
+      username: anonUsername,
+      token: data.token
+    });
+  });
+}, 1000, true);
+
 function fetchCurrentUser() {
   if(!currentUser) {
     currentUser = storage.retrieve("currentUser")
   }
   if(!currentUser) {
-    currentUser = mori.toClj({
-      username: "anonymous:" + (new Date().getTime()) + "-" + (Math.random().toString(36).replace(/[^a-z]+/g, '')),
-      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBbm9ueW1vdXMiLCJleHAiOjE0MjM2NjY4MzUsImlhdCI6MTQyMjgwMjgzNX0.92bT3Yy7Jx9rKDWbQRorQJOQxpqGJTTCeuyK35mb5-o"
-    });
+    prepareAnonymousUser();
   }
   return currentUser;
 }
@@ -31,11 +40,12 @@ function fetchCurrentUser() {
 var CurrentUserStore = assign({}, EventEmitter.prototype, {
 
   "CurrentUser#verifyUsername": function(action) {
+    var username = _.get(action, "username");
     // simulate request
     setTimeout(function() {
-      if(action.username == "donbonifacio") {
+      if(username == "donbonifacio") {
         CurrentUserStore.setCurrentUser({username:"donbonifacio", token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkb25ib25pZmFjaW8iLCJleHAiOjE0MjM0ODk4NTksImlhdCI6MTQyMjYyNTg1OX0.5fFedaFXik7rbEdIPeHgdV7JkdFbginVQUkilYtZ1DU"});
-      } else if(action.username == "Pyro") {
+      } else if(username == "Pyro") {
         CurrentUserStore.setCurrentUser({username:"Pyro", token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJQeXJvIiwiZXhwIjoxNDIzNDg5OTI1LCJpYXQiOjE0MjI2MjU5MjV9.czpW-wXHq9Cgp6-8Hs1mHe9dzXAx2Gz7m4vbzpyDPtI"});
       } else {
         CurrentUserStore.emitChange(LOGIN_ERRORS_EVENT);
@@ -52,7 +62,7 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
     if(!user) {
       return false;
     }
-    var username = mori.get(user, "username");
+    var username = _.get(user, "username");
     if(!anonRegex.test(username)) {
       return true;
     }
@@ -64,7 +74,7 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
   },
 
   setCurrentUser: function setCurrentUser(user) {
-    currentUser = mori.toClj(user);
+    currentUser = _.toClj(user);
     persistLocalStorage(user);
     this.emitChange(CURRENT_USER_CHANGED_EVENT);
   },
@@ -92,8 +102,9 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
 });
 
 AppDispatcher.register(function(action) {
-  if(CurrentUserStore[action.actionType]) {
-    CurrentUserStore[action.actionType](action);
+  var actionType = _.get(action, "actionType");
+  if(CurrentUserStore[actionType]) {
+    CurrentUserStore[actionType](action);
   }
 });
 
