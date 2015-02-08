@@ -13,7 +13,7 @@ var StashPreview = React.createClass({
     var units = _.toJs(_.map(function(unitName){
       var css = "units-small-sprite units-small-"+unitName+"_n";
       return (
-        <div className={css}></div>
+        <div key={unitName} className={css}></div>
       );
     }, _.keys(stash)));
 

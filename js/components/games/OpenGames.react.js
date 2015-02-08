@@ -27,7 +27,7 @@ var OpenGames = React.createClass({
   render: function() {
 
     var rows = _.toJs(_.map(function(game) {
-      return <LobbyGameTr game={game} />
+      return <LobbyGameTr key={_.get(game, "_id")} game={game} />
     }, this.state.games));
 
     return (
