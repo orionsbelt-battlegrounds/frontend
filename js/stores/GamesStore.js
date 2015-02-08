@@ -3,6 +3,7 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
+var debounce = require('debounce');
 var _ = require("mori");
 var gateway = require("../utils/gateway.js");
 var CurrentUserStore = require("./CurrentUserStore.js");
@@ -11,13 +12,16 @@ var LOBBY_UPDATED_EVENT = "GamesStore#LobbyUpdated";
 
 var lobbyGames = _.vector();
 
-function updateLobby() {
+var updateLobby = debounce(function updateLobby() {
+  if(GamesStore.listeners(LOBBY_UPDATED_EVENT).length === 0 ) {
+    return;
+  }
   var user = CurrentUserStore.getCurrentUser();
   gateway.getLobbyGames(user, function onNewLobbyGames(games) {
     lobbyGames = _.toClj(games);
     GamesStore.lobbyUpdated(lobbyGames);
   });
-}
+}, 1000)
 
 setInterval(updateLobby, 2500);
 
