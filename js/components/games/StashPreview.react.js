@@ -10,8 +10,8 @@ var StashPreview = React.createClass({
     var terrain = "terrainPreview " + _.getIn(game, ["board", "terrain"]);
     var stash = _.getIn(game, ["starting-stash", "p1"]);
 
-    var units = _.toJs(_.map(function(k, v){
-      var css = "units-small-sprite units-small-"+k+"_n";
+    var units = _.toJs(_.map(function(unitName){
+      var css = "units-small-sprite units-small-"+unitName+"_n";
       return (
         <div className={css}></div>
       );
