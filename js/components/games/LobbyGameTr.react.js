@@ -12,7 +12,7 @@ var LobbyGameTr = React.createClass({
     var game = this.props.game;
     var username = _.getIn(game, ["p1", "name"]);
     return (
-      <tr>
+      <tr key={_.get(game, "_id")}>
         <td><ProfileLink username={username} /></td>
         <td></td>
         <td className="unitRoaster"><StashPreview game={game} /></td>
