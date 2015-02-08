@@ -9,7 +9,7 @@ var LobbyGameTr = require('./LobbyGameTr.react.js');
 var OpenGames = React.createClass({
 
   getInitialState: function() {
-    return {games:_.vector()};
+    return {games:GamesStore.getLobbyGames()};
   },
 
   componentDidMount: function() {

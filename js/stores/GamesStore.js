@@ -9,14 +9,23 @@ var CurrentUserStore = require("./CurrentUserStore.js");
 
 var LOBBY_UPDATED_EVENT = "GamesStore#LobbyUpdated";
 
-setInterval(function updateLobby() {
+var lobbyGames = _.vector();
+
+function updateLobby() {
   var user = CurrentUserStore.getCurrentUser();
   gateway.getLobbyGames(user, function onNewLobbyGames(games) {
-    GamesStore.lobbyUpdated(_.toClj(games));
+    lobbyGames = _.toClj(games);
+    GamesStore.lobbyUpdated(lobbyGames);
   });
-}, 2500);
+}
+
+setInterval(updateLobby, 2500);
 
 var GamesStore = assign({}, EventEmitter.prototype, {
+
+  getLobbyGames: function getLobbyGames() {
+    return lobbyGames;
+  },
 
   lobbyUpdated: function(games) {
     this.emit(LOBBY_UPDATED_EVENT, games);
