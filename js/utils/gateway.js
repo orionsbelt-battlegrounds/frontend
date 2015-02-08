@@ -9,6 +9,21 @@ function makeAnonymousRequest(path, callback) {
   }
 }
 
+function getRequest(user, path, callback) {
+  var url = OBB_API_URL + path;
+  if(window['$']) {
+    $.ajax({
+      type: "GET",
+      url: url,
+      contentType: "application/json",
+      headers: {
+        "x-obb-auth-token" : _.get(user, "token")
+      },
+      success: callback
+    });
+  }
+}
+
 function postRequest(user, path, data, callback) {
   var url = OBB_API_URL + path;
   if(window['$']) {
@@ -36,6 +51,10 @@ module.exports = {
       challenger: _.get(user, "username")
     };
     postRequest(user, "/game/create/friendly", data, callback);
+  },
+
+  getLobbyGames: function getLobbyGames(user, callback) {
+    getRequest(user, "/lobby/open-games", callback);
   }
 
 }
