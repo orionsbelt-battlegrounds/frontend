@@ -28,8 +28,6 @@ setInterval(updateLobby, 2500);
 var GamesStore = assign({}, EventEmitter.prototype, {
 
   "GameStore#joinGame" : function joinGame(action) {
-    console.log(_.getIn(action, ["game"]))
-    console.log(_.getIn(action, ["game", "_id"]))
     gateway.joinGame(_.get(action, "user"), _.getIn(action, ["game", "_id"]))
   },
 
