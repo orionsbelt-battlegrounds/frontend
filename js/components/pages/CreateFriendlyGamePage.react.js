@@ -55,7 +55,7 @@ var CreateFriendlyGamePage = React.createClass({
   },
 
   onCreate : function(ev) {
-    this.setState({creating: false});
+    this.setState({creating: true});
     GameActions.createFriendly();
   },
 

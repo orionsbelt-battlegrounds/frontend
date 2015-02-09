@@ -40,6 +40,22 @@ function postRequest(user, path, data, callback) {
   }
 }
 
+function putRequest(user, path, data, callback) {
+  var url = OBB_API_URL + path;
+  if(window['$']) {
+    $.ajax({
+      type: "PUT",
+      url: url,
+      data: JSON.stringify(data),
+      contentType: "application/json",
+      headers: {
+        "x-obb-auth-token" : _.get(user, "token")
+      },
+      success: callback
+    });
+  }
+}
+
 module.exports = {
 
   anonymize: function anonymize(username, callback) {
@@ -55,6 +71,10 @@ module.exports = {
 
   getLobbyGames: function getLobbyGames(user, callback) {
     getRequest(user, "/lobby/open-games", callback);
+  },
+
+  joinGame: function joinGame(user, gameId, callback) {
+    putRequest(user, "/game/"+gameId+"/join", {}, callback);
   }
 
 }
