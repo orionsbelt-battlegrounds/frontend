@@ -5,6 +5,7 @@ var React = require('react');
 var GamesStore = require('../../stores/GamesStore.js');
 var ProfileLink = require('../../components/common/ProfileLink.react.js');
 var StashPreview = require('./StashPreview.react.js');
+var JoinGameLink = require('./JoinGameLink.react.js');
 
 var LobbyGameTr = React.createClass({
 
@@ -18,7 +19,7 @@ var LobbyGameTr = React.createClass({
         <td className="unitRoaster"><StashPreview game={game} /></td>
         <td></td>
         <td>Casual</td>
-        <td className="unitRoaster"><a href="#" className="btn btn-info">Join</a></td>
+        <td className="unitRoaster"><JoinGameLink game={game}/></td>
       </tr>
     );
   }
