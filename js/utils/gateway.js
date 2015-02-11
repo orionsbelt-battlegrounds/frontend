@@ -2,8 +2,15 @@ var _ = require("mori");
 
 var OBB_API_URL = "http://api.orionsbelt.eu";
 
+function uniquify(path) {
+  if(path.indexOf("?") == -1) {
+    return path + "?t=" + (new Date().getTime());
+  }
+  return path + "&t=" + (new Date().getTime());
+}
+
 function makeRequest(user, method, path, data, callback) {
-  var url = OBB_API_URL + path;
+  var url = OBB_API_URL + uniquify(path);
   var headers = null;
   if(user) {
     headers = {
