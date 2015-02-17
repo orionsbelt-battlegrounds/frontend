@@ -3,6 +3,7 @@
 var _ = require('mori');
 var React = require('react');
 var GamesStore = require('../../stores/GamesStore.js');
+var GameActions = require('../../actions/GameActions.js');
 var ProfileLink = require('../../components/common/ProfileLink.react.js');
 var LobbyGameTr = require('./LobbyGameTr.react.js');
 
@@ -14,6 +15,7 @@ var OpenGames = React.createClass({
 
   componentDidMount: function() {
     GamesStore.addLobbyUpdatedListener(this.onLobbyChanged);
+    GameActions.updateLobby();
   },
 
   componentWillUnmount: function() {

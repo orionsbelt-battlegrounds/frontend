@@ -21,7 +21,7 @@ var updateLobby = debounce(function updateLobby() {
     lobbyGames = _.toClj(games);
     GamesStore.lobbyUpdated(lobbyGames);
   });
-}, 1000)
+}, 1000, true)
 
 setInterval(updateLobby, 2500);
 
@@ -29,6 +29,10 @@ var GamesStore = assign({}, EventEmitter.prototype, {
 
   "GameStore#joinGame" : function joinGame(action) {
     gateway.joinGame(_.get(action, "user"), _.getIn(action, ["game", "_id"]))
+  },
+
+  "GameStore#updateLobby" : function updateLobbyAction() {
+    updateLobby();
   },
 
   getLobbyGames: function getLobbyGames() {

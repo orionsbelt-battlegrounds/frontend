@@ -27,7 +27,19 @@ module.exports = {
 
   joinGame: function joinGame(game) {
     AppDispatcher.dispatch(this.joinGameData(game));
+  },
+
+
+  updateLobbyData: function updateLobbyData() {
+    return _.toClj({
+      actionType : "GameStore#updateLobby"
+    });
+  }, 
+
+  updateLobby: function updateLobby() {
+    AppDispatcher.dispatch(this.updateLobbyData());
   }
+
 
 };
 
