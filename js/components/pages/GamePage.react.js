@@ -9,7 +9,32 @@ var GameStore = require('../../stores/GameStore.js');
 
 var CreatePage = React.createClass({
 
+  mixins: [ Router.State ],
+
+  getInitialState: function getInitialState() {
+    return {loading:true};
+  },
+
+  componentDidMount: function() {
+    GameStore.addGameLoadedListener(this.onGameLoaded);
+    GameActions.loadGame(this.getParams().gameId);
+  },
+
+  componentWillUnmount: function() {
+    GameStore.removeGameLoadedListener(this.onGameLoaded);
+  },
+
+  onGameLoaded: function onGameLoaded(game) {
+    this.setState({game:game, loading:false});
+  },
+
   render: function () {
+
+    if(this.state.loading) {
+      return (
+        <div>Loading...</div>
+      );
+    }
 
     return (
       <div>

@@ -62,6 +62,10 @@ module.exports = {
     postRequest(user, "/game/create/friendly", data, callback);
   },
 
+  loadGame: function loadGame(user, gameId, callback) {
+    getRequest(user, "/game/"+gameId, callback);
+  },
+
   getLobbyGames: function getLobbyGames(user, callback) {
     getRequest(user, "/lobby/open-games", callback);
   },

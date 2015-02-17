@@ -6,6 +6,17 @@ var _ = require("mori");
 
 module.exports = {
 
+  loadGameData: function loadGameData(gameId) {
+    return _.toClj({
+      actionType : "GameStore#loadGame",
+      gameId : gameId
+    });
+  },
+
+  loadGame: function loadGame(gameId) {
+    AppDispatcher.dispatch(this.loadGameData(gameId));
+  },
+
   createFriendlyData: function createFriendlyData(user) {
     return _.toClj({
       actionType : "GameStore#createFriendly",
