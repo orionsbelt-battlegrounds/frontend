@@ -2,10 +2,14 @@
 
 var _ = require('mori');
 var React = require('react');
+var Router = require('react-router');
+var Navigation = Router.Navigation;
 var GamesStore = require('../../stores/GamesStore.js');
 var GameActions = require('../../actions/GameActions.js');
 
 var JoinGameLink = React.createClass({
+
+  mixins: [Navigation],
 
   getInitialState: function() {
     return {creating: false};
@@ -25,7 +29,7 @@ var JoinGameLink = React.createClass({
 
   onJoinGame: function onJoinGame() {
     this.setState({creating: true});
-    GameActions.joinGame(this.props.game);
+    GameActions.joinGame(this.props.game, this);
   }
 
 });

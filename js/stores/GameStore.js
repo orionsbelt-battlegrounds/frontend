@@ -8,8 +8,17 @@ var gateway = require("../utils/gateway.js");
 var CurrentUserStore = require("./CurrentUserStore.js");
 
 var GAME_CREATED_EVENT = "GameStore#GameCreated";
+var GAME_LOADED_EVENT = "GameStore#GameLoaded";
 
 var GameStore = assign({}, EventEmitter.prototype, {
+
+  "GameStore#loadGame": function(action) {
+    var user = CurrentUserStore.getCurrentUser();
+    var gameId = _.get(action, "gameId");
+    gateway.loadGame(user, gameId, function afterLoadGame(game) {
+      GameStore.emit(GAME_LOADED_EVENT, _.toClj(game));
+    });
+  },
 
   "GameStore#createFriendly": function(action) {
     var user = CurrentUserStore.getCurrentUser();
@@ -28,6 +37,14 @@ var GameStore = assign({}, EventEmitter.prototype, {
 
   removeGameCreatedListener: function(callback) {
     this.removeListener(GAME_CREATED_EVENT, callback);
+  },
+
+  addGameLoadedListener: function(callback) {
+    this.on(GAME_LOADED_EVENT, callback);
+  },
+
+  removeGameLoadedListener: function(callback) {
+    this.removeListener(GAME_LOADED_EVENT, callback);
   }
 
 });
