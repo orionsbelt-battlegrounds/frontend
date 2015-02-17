@@ -2,6 +2,7 @@
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
+var Router = require('../utils/router.js');
 var assign = require('object-assign');
 var debounce = require('debounce');
 var _ = require("mori");
@@ -25,10 +26,19 @@ var updateLobby = debounce(function updateLobby() {
 
 setInterval(updateLobby, 2500);
 
+function onGameJoined(gameId, router) {
+  router.transitionTo("game", {gameId:gameId})
+}
+
 var GamesStore = assign({}, EventEmitter.prototype, {
 
   "GameStore#joinGame" : function joinGame(action) {
-    gateway.joinGame(_.get(action, "user"), _.getIn(action, ["game", "_id"]))
+    var user = _.get(action, "user");
+    var router = _.get(action, "router");
+    var gameId = _.getIn(action, ["game", "_id"]);
+    gateway.joinGame(user, gameId, function() {
+      onGameJoined(gameId, router);
+    });
   },
 
   "GameStore#updateLobby" : function updateLobbyAction() {

@@ -17,18 +17,18 @@ module.exports = {
     AppDispatcher.dispatch(this.createFriendlyData());
   },
 
-  joinGameData: function joinGameData(game) {
+  joinGameData: function joinGameData(game, router) {
     return _.toClj({
       actionType : "GameStore#joinGame",
       user : CurrentUserStore.getCurrentUser(),
-      game : game
+      game : game,
+      router : router
     });
   }, 
 
-  joinGame: function joinGame(game) {
-    AppDispatcher.dispatch(this.joinGameData(game));
+  joinGame: function joinGame(game, router) {
+    AppDispatcher.dispatch(this.joinGameData(game, router));
   },
-
 
   updateLobbyData: function updateLobbyData() {
     return _.toClj({
