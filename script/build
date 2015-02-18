@@ -2,12 +2,16 @@
 
 NAME=obb-frontend
 
-NODE_ENV=production time node ./node_modules/browserify/bin/cmd.js . | \
+NODE_ENV=production node ./node_modules/browserify/bin/cmd.js . | \
     ./node_modules/uglify-js/bin/uglifyjs -cm > dist/$NAME.min.js
 
-time compass compile -e production --force \
+compass compile -e production --force \
         --sass-dir=css/scss/ --css-dir=dist --images-dir=public/
 
 mv dist/$NAME.css dist/$NAME.min.css
 
-time /usr/local/bin/pngquant --force --ext .png public/*.png
+/usr/local/bin/pngquant --force --ext .png public/*.png
+
+cat index.template.html | \
+  sed "s/CSS_VERSION/$(git hash-object dist/obb-frontend.min.css)/g" | \
+  sed "s/JS_VERSION/$(git hash-object dist/obb-frontend.min.js)/g" > index.html
