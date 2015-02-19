@@ -48,7 +48,7 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
       } else if(username == "Pyro") {
         CurrentUserStore.setCurrentUser({username:"Pyro", token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJQeXJvIiwiZXhwIjoxNDIzNDg5OTI1LCJpYXQiOjE0MjI2MjU5MjV9.czpW-wXHq9Cgp6-8Hs1mHe9dzXAx2Gz7m4vbzpyDPtI"});
       } else {
-        CurrentUserStore.emitChange(LOGIN_ERRORS_EVENT);
+        CurrentUserStore.emit(LOGIN_ERRORS_EVENT);
       }
     }, 500);
   },
@@ -76,30 +76,14 @@ var CurrentUserStore = assign({}, EventEmitter.prototype, {
   setCurrentUser: function setCurrentUser(user) {
     currentUser = _.toClj(user);
     persistLocalStorage(user);
-    this.emitChange(CURRENT_USER_CHANGED_EVENT);
-  },
-
-  emitChange: function(event) {
-    this.emit(event);
-  },
-
-  addChangeListener: function(callback) {
-    this.on(CURRENT_USER_CHANGED_EVENT, callback);
-  },
-
-  removeChangeListener: function(callback) {
-    this.removeListener(CURRENT_USER_CHANGED_EVENT, callback);
-  },
-
-  addLoginErrorsListener: function(callback) {
-    this.on(LOGIN_ERRORS_EVENT, callback);
-  },
-
-  removeLoginErrorsListener: function(callback) {
-    this.removeListener(LOGIN_ERRORS_EVENT, callback);
+    this.emit(CURRENT_USER_CHANGED_EVENT);
   }
 
 });
+
+var events = require("../utils/events.js");
+events.configure(CurrentUserStore, "Change", CURRENT_USER_CHANGED_EVENT);
+events.configure(CurrentUserStore, "LoginErrors", LOGIN_ERRORS_EVENT);
 
 AppDispatcher.register(function(action) {
   var actionType = _.get(action, "actionType");

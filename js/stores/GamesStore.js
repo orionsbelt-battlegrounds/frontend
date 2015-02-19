@@ -51,17 +51,12 @@ var GamesStore = assign({}, EventEmitter.prototype, {
 
   lobbyUpdated: function(games) {
     this.emit(LOBBY_UPDATED_EVENT, games);
-  },
-
-  addLobbyUpdatedListener: function(callback) {
-    this.on(LOBBY_UPDATED_EVENT, callback);
-  },
-
-  removeLobbyUpdatedListener: function(callback) {
-    this.removeListener(LOBBY_UPDATED_EVENT, callback);
   }
 
 });
+
+var events = require("../utils/events.js");
+events.configure(GamesStore, "LobbyUpdated", LOBBY_UPDATED_EVENT);
 
 AppDispatcher.register(function(action) {
   var actionType = _.get(action, "actionType");

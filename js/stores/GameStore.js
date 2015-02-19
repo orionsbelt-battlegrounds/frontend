@@ -25,29 +25,13 @@ var GameStore = assign({}, EventEmitter.prototype, {
     gateway.createFriendly(user, {}, function afterCreate(game) {
       GameStore.emit(GAME_CREATED_EVENT, _.toClj(game));
     });
-  },
-
-  emitChange: function(event) {
-    this.emit(event);
-  },
-
-  addGameCreatedListener: function(callback) {
-    this.on(GAME_CREATED_EVENT, callback);
-  },
-
-  removeGameCreatedListener: function(callback) {
-    this.removeListener(GAME_CREATED_EVENT, callback);
-  },
-
-  addGameLoadedListener: function(callback) {
-    this.on(GAME_LOADED_EVENT, callback);
-  },
-
-  removeGameLoadedListener: function(callback) {
-    this.removeListener(GAME_LOADED_EVENT, callback);
   }
 
 });
+
+var events = require("../utils/events.js");
+events.configure(GameStore, "GameLoaded", GAME_LOADED_EVENT);
+events.configure(GameStore, "GameCreated", GAME_CREATED_EVENT);
 
 AppDispatcher.register(function(action) {
   var actionType = _.get(action, "actionType");
