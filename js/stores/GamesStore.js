@@ -58,11 +58,6 @@ var GamesStore = assign({}, EventEmitter.prototype, {
 var events = require("../utils/events.js");
 events.configure(GamesStore, "LobbyUpdated", LOBBY_UPDATED_EVENT);
 
-AppDispatcher.register(function(action) {
-  var actionType = _.get(action, "actionType");
-  if(GamesStore[actionType]) {
-    GamesStore[actionType](action);
-  }
-});
+AppDispatcher.autoDispatch(GamesStore);
 
 module.exports = GamesStore;

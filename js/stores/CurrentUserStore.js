@@ -85,11 +85,6 @@ var events = require("../utils/events.js");
 events.configure(CurrentUserStore, "Change", CURRENT_USER_CHANGED_EVENT);
 events.configure(CurrentUserStore, "LoginErrors", LOGIN_ERRORS_EVENT);
 
-AppDispatcher.register(function(action) {
-  var actionType = _.get(action, "actionType");
-  if(CurrentUserStore[actionType]) {
-    CurrentUserStore[actionType](action);
-  }
-});
+AppDispatcher.autoDispatch(CurrentUserStore);
 
 module.exports = CurrentUserStore;

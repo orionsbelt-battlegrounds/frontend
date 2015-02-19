@@ -33,11 +33,6 @@ var events = require("../utils/events.js");
 events.configure(GameStore, "GameLoaded", GAME_LOADED_EVENT);
 events.configure(GameStore, "GameCreated", GAME_CREATED_EVENT);
 
-AppDispatcher.register(function(action) {
-  var actionType = _.get(action, "actionType");
-  if(GameStore[actionType]) {
-    GameStore[actionType](action);
-  }
-});
+AppDispatcher.autoDispatch(GameStore);
 
 module.exports = GameStore;
