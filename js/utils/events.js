@@ -7,7 +7,7 @@ module.exports = {
 
     obj["remove"+handleName+"Listener"] = function(callback) {
       obj.removeListener(eventName, callback);
-    }
+    };
   }
 
 };

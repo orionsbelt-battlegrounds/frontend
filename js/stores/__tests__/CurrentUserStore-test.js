@@ -1,5 +1,6 @@
 "use strict";
 
+jest.dontMock('../../dispatcher/AutoAppDispatcher.js');
 jest.dontMock('../CurrentUserStore.js');
 jest.dontMock('../../actions/CurrentUserActions.js');
 jest.dontMock('object-assign');
@@ -15,9 +16,9 @@ describe('CurrentUserStore', function() {
   var processCurrentUserStore;
 
   beforeEach(function() {
-    AppDispatcher = require('../../dispatcher/AppDispatcher');
-    CurrentUserStore = require('../CurrentUserStore');
-    CurrentUserActions = require('../../actions/CurrentUserActions');
+    AppDispatcher = require('../../dispatcher/AppDispatcher.js');
+    CurrentUserStore = require('../CurrentUserStore.js');
+    CurrentUserActions = require('../../actions/CurrentUserActions.js');
     processCurrentUserStore = AppDispatcher.register.mock.calls[0][0];
   });
 
@@ -29,7 +30,7 @@ describe('CurrentUserStore', function() {
     var data = CurrentUserActions.verifyUsernameData("user", "pass");
 
     var emitChange = jest.genMockFunction();
-    CurrentUserStore.emitChange = emitChange;
+    CurrentUserStore.emit = emitChange;
 
     processCurrentUserStore(data)
     jest.runAllTimers();
@@ -42,7 +43,7 @@ describe('CurrentUserStore', function() {
     var data = CurrentUserActions.verifyUsernameData("donbonifacio", "pass");
 
     var emitChange = jest.genMockFunction();
-    CurrentUserStore.emitChange = emitChange;
+    CurrentUserStore.emit = emitChange;
 
     processCurrentUserStore(data)
     jest.runAllTimers();

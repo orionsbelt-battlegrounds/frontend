@@ -4,6 +4,7 @@ jest.dontMock('object-assign');
 jest.dontMock('../CurrentUserMenu.react.js');
 jest.dontMock('../../common/Link.react.js');
 jest.dontMock('../../../stores/CurrentUserStore.js');
+jest.dontMock('../../../utils/events.js');
 
 var React = require('react/addons');
 var CurrentUserMenu = require('../CurrentUserMenu.react.js');

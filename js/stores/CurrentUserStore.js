@@ -1,6 +1,6 @@
 "use strict";
 
-var AppDispatcher = require('../dispatcher/AppDispatcher');
+var AppDispatcher = require('../dispatcher/AutoAppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 var _ = require("mori");
