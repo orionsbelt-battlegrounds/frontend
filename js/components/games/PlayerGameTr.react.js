@@ -6,7 +6,7 @@ var GamesStore = require('../../stores/GamesStore.js');
 var CurrentUserStore = require('../../stores/CurrentUserStore.js');
 var ProfileLink = require('../../components/common/ProfileLink.react.js');
 var StashPreview = require('./StashPreview.react.js');
-var JoinGameLink = require('./JoinGameLink.react.js');
+var ViewGameLink = require('./ViewGameLink.react.js');
 
 function getOpponent(user, game) {
   if(_.get(user, "username") === _.getIn(game, ["p1", "name"])) {
@@ -28,7 +28,7 @@ var PlayerGameTr = React.createClass({
         <td className="unitRoaster"><StashPreview game={game} /></td>
         <td></td>
         <td>Casual</td>
-        <td className="unitRoaster"><JoinGameLink game={game}/></td>
+        <td className="unitRoaster"><ViewGameLink game={game}/></td>
       </tr>
     );
   }
