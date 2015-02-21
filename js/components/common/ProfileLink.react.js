@@ -7,6 +7,9 @@ module.exports = React.createClass({
 
   render: function () {
     var username = this.props.username;
+    if(!username) {
+      return (<span>?</span>);
+    }
     if(username.lastIndexOf("anonymous:", 0) === 0) {
       username = "anonymous";
     }

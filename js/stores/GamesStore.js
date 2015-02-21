@@ -10,8 +10,10 @@ var gateway = require("../utils/gateway.js");
 var CurrentUserStore = require("./CurrentUserStore.js");
 
 var LOBBY_UPDATED_EVENT = "GamesStore#LobbyUpdated";
+var PLAYER_GAMES_UPDATED_EVENT = "GamesStore#PlayerGamesUpdated";
 
 var lobbyGames = _.vector();
+var playerGames = _.vector();
 
 var updateLobby = debounce(function updateLobby() {
   if(GamesStore.listeners(LOBBY_UPDATED_EVENT).length === 0 ) {
@@ -22,7 +24,11 @@ var updateLobby = debounce(function updateLobby() {
     lobbyGames = _.toClj(games);
     GamesStore.lobbyUpdated(lobbyGames);
   });
-}, 1000, true)
+  gateway.getPlayerGames(user, function onNewPlayerGames(games) {
+    playerGames = _.toClj(games);
+    GamesStore.playerGamesUpdated(playerGames);
+  });
+}, 2500, true);
 
 setInterval(updateLobby, 2500);
 
@@ -51,12 +57,21 @@ var GamesStore = assign({}, EventEmitter.prototype, {
 
   lobbyUpdated: function(games) {
     this.emit(LOBBY_UPDATED_EVENT, games);
+  },
+
+  playerGamesUpdated: function(games) {
+    this.emit(PLAYER_GAMES_UPDATED_EVENT, games);
+  },
+
+  getPlayerGames: function getLobbyGames() {
+    return playerGames;
   }
 
 });
 
 var events = require("../utils/events.js");
 events.configure(GamesStore, "LobbyUpdated", LOBBY_UPDATED_EVENT);
+events.configure(GamesStore, "PlayerGamesUpdated", PLAYER_GAMES_UPDATED_EVENT);
 
 AppDispatcher.autoDispatch(GamesStore);
 

@@ -5,6 +5,7 @@ var SettingsStore = require('../../stores/SettingsStore.js');
 var SettingsActions = require('../../actions/SettingsActions.js');
 
 var OpenGames = require('../games/OpenGames.react.js');
+var PlayerGames = require('../games/PlayerGames.react.js');
 var Link = require('../common/Link.react.js');
 
 function tabCss(current, tab) {
@@ -60,7 +61,7 @@ var LobbyLayout = React.createClass({
               <OpenGames />
             </div>
             <div className={tabContentCss(selectedTab, "playerGames")} id="playerGames">
-              your games
+              <PlayerGames />
             </div>
           </div>
         </div>
