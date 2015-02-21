@@ -70,6 +70,10 @@ module.exports = {
     getRequest(user, "/lobby/open-games", callback);
   },
 
+  getPlayerGames: function getPlayerGames(user, callback) {
+    getRequest(user, "/player/latest-games", callback);
+  },
+
   joinGame: function joinGame(user, gameId, callback) {
     putRequest(user, "/game/"+gameId+"/join", {}, callback);
   }
