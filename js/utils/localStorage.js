@@ -22,7 +22,7 @@ module.exports = {
       var jsObj = JSON.parse(raw);
       return mori.toClj(jsObj);
     }
-    return null
+    return null;
   }
 
 };
