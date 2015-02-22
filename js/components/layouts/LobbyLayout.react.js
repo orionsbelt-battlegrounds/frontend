@@ -6,6 +6,7 @@ var SettingsActions = require('../../actions/SettingsActions.js');
 
 var OpenGames = require('../games/OpenGames.react.js');
 var PlayerGames = require('../games/PlayerGames.react.js');
+var GamesToPlayBadge = require('../games/GamesToPlayBadge.react.js');
 var Link = require('../common/Link.react.js');
 
 function tabCss(current, tab) {
@@ -54,7 +55,7 @@ var LobbyLayout = React.createClass({
         <div className="col-lg-9">
           <ul className="nav nav-tabs">
             <li className={tabCss(selectedTab, "openGames")}><a href="#openGames" onClick={tabChangedHandler("openGames")} data-toggle="tab">Open Games</a></li>
-            <li className={tabCss(selectedTab, "playerGames")}><a href="#yourGames" onClick={tabChangedHandler("playerGames")} data-toggle="tab">Your Games <span className="label label-warning">3</span></a></li>
+            <li className={tabCss(selectedTab, "playerGames")}><a href="#yourGames" onClick={tabChangedHandler("playerGames")} data-toggle="tab">Your Games <GamesToPlayBadge /></a></li>
           </ul>
           <div id="myTabContent" className="tab-content">
             <div className={tabContentCss(selectedTab, "openGames")} id="openGames">
