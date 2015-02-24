@@ -1,5 +1,6 @@
 "use strict";
 
+var _ = require('mori');
 var React = require('react');
 var Router = require('react-router');
 var Navigation = Router.Navigation;
@@ -36,6 +37,9 @@ var CreatePage = React.createClass({
         <div>Loading...</div>
       );
     }
+
+    //console.log(_.toJs(this.state.game))
+    //var units = 
 
     return (
       <div>
