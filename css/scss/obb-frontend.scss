@@ -68,3 +68,12 @@ table.gamesPreview tr td {
 table.gamesPreview tr td.unitRoaster {
   padding-top: 15px;
 }
+
+.unit-cell {
+  position:relative;
+}
+
+.unit-cell-quantity {
+  position:absolute;
+  top:75%;
+}
