@@ -13,7 +13,12 @@ module.exports = React.createClass({
   render: function () {
     var quantity = null;
     if(this.state.over) {
-      quantity = <span className="label label-default unit-cell-quantity">{this.props.quantity}</span>;
+      quantity = (
+        <div>
+        <span className="label label-default unit-cell-quantity">{this.props.quantity}</span>
+        </div>
+
+      );
     }
     var config = "units-sprite units-"+this.props.unitName+"_n unit-cell";
     return (
