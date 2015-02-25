@@ -13,10 +13,16 @@ module.exports = React.createClass({
   render: function () {
     var quantity = null;
     if(this.state.over) {
-      quantity = <span className="label label-default unit-cell-quantity">10</span>;
+      quantity = (
+        <div>
+        <span className="label label-default unit-cell-quantity">{this.props.quantity}</span>
+        </div>
+
+      );
     }
+    var config = "units-sprite units-"+this.props.unitName+"_n unit-cell";
     return (
-      <div onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} className="units-sprite units-doomer_n unit-cell">
+      <div onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} className={config}>
         {quantity}
       </div>
     );

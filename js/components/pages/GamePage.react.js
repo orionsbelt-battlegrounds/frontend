@@ -7,9 +7,19 @@ var Navigation = Router.Navigation;
 var ErrorAlert = require('../common/ErrorAlert.react.js');
 var GameActions = require('../../actions/GameActions.js');
 var GameStore = require('../../stores/GameStore.js');
-var UnitCell = require('../board/UnitCell.react.js');
+var PlayerStash = require('../board/PlayerStash.react.js');
 
-var CreatePage = React.createClass({
+var CurrentUserStore = require('../../stores/CurrentUserStore.js');
+
+function getCurrentPlayerCode(game) {
+  var user = CurrentUserStore.getCurrentUser();
+  if(_.get(user, "username") === _.getIn(game, ["p1", "name"])) {
+    return "p1";
+  }
+  return "p2";
+}
+
+var GamePage = React.createClass({
 
   mixins: [ Router.State ],
 
@@ -38,8 +48,7 @@ var CreatePage = React.createClass({
       );
     }
 
-    //console.log(_.toJs(this.state.game))
-    //var units = 
+    var playerCode = getCurrentPlayerCode(this.state.game);
 
     return (
       <div>
@@ -50,7 +59,7 @@ var CreatePage = React.createClass({
         <p/>
         We are still working on this...
         <p/>
-        <UnitCell />
+        <PlayerStash playerCode={playerCode} game={this.state.game} />
       </div>
     );
   }
@@ -58,4 +67,4 @@ var CreatePage = React.createClass({
 
 });
 
-module.exports = CreatePage;
+module.exports = GamePage;
