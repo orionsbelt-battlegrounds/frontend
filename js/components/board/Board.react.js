@@ -4,6 +4,8 @@ var Router = require('react-router');
 var React = require('react');
 var _ = require("mori");
 
+var UnitCell = require('../board/UnitCell.react.js');
+
 module.exports = React.createClass({
 
   render: function () {
@@ -11,12 +13,15 @@ module.exports = React.createClass({
 
     var rows = _.map(function mapRows(y) {
       var columns = _.map(function mapColumns(x) {
-        return <td key={x+1}></td>;
+        return (
+          <td key={x+1}>
+            <UnitCell unitName={"eagle"} quantity={10} />
+          </td>
+        );
       }, _.range(8));
 
       return (<tr key={y+1}>{_.intoArray(columns)}</tr>);
     }, _.range(8));
-      console.log(_.intoArray(rows));
 
     return (
       <div className={css}>
