@@ -8,6 +8,7 @@ var ErrorAlert = require('../common/ErrorAlert.react.js');
 var GameActions = require('../../actions/GameActions.js');
 var GameStore = require('../../stores/GameStore.js');
 var PlayerStash = require('../board/PlayerStash.react.js');
+var Board = require('../board/Board.react.js');
 
 var CurrentUserStore = require('../../stores/CurrentUserStore.js');
 
@@ -52,6 +53,9 @@ var GamePage = React.createClass({
 
     return (
       <div>
+        <p>Still working on this. come back in a week. :-)</p>
+        <Board game={this.state.game} />
+        <p/>
         <PlayerStash playerCode={playerCode} game={this.state.game} />
       </div>
     );

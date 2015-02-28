@@ -85,3 +85,24 @@ table.gamesPreview tr td.unitRoaster {
   width:450px;
   padding:5px;
 }
+
+.board {
+  width:482px;
+  height:482px;
+  padding:15px;
+}
+
+.board table {
+  background:none;
+  border-collapse: separate;
+  border-spacing:2px;
+}
+
+.board table tr td {
+  width:54px;
+  height:54px;
+  border-color:#000;
+  border-style:solid;
+  border-width:1px;
+  padding:4px;
+}
