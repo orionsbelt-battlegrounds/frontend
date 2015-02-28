@@ -4,3 +4,5 @@ git checkout gh-pages
 git merge master
 script/build
 git commit -am "Update"
+git push origin gh-pages
+git co master
