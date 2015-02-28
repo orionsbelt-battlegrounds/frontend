@@ -17,11 +17,15 @@ module.exports = React.createClass({
     var units = _.map(function mapUnits(info) {
       var name = _.get(info, 0);
       var quantity = _.get(info, 1);
-      return <UnitCell key={name} unitName={name} quantity={quantity} />;
+      return (
+        <UnitCell key={name} unitName={name} quantity={quantity} />
+      );
     }, stash);
 
+    var css = "playerStash " + _.getIn(this.props.game, ["board", "terrain"]);
+
     return (
-      <section className='playerStash'>
+      <section className={css}>
         {_.intoArray(units)}
       </section>
     );
