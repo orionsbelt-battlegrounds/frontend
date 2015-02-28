@@ -10,7 +10,7 @@ compass compile -e production --force \
 
 mv dist/$NAME.css dist/$NAME.min.css
 
-/usr/local/bin/pngquant --force --ext .png public/*.png
+#/usr/local/bin/pngquant --force --ext .png public/*.png
 
 cat index.template.html | \
   sed "s/CSS_VERSION/$(git hash-object dist/obb-frontend.min.css)/g" | \
