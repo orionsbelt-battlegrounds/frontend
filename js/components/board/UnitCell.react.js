@@ -17,15 +17,21 @@ module.exports = React.createClass({
         <div>
         <span className="label label-default unit-cell-quantity">{this.props.quantity}</span>
         </div>
-
       );
     }
     var config = "units-sprite units-"+this.props.unitName+"_n unit-cell";
     return (
-      <div onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} className={config}>
+      <div onClick={this.select}
+           onMouseOver={this.mouseOver}
+           onMouseOut={this.mouseOut}
+           className={config}>
         {quantity}
       </div>
     );
+  },
+
+  select: function selectUnit(ev) {
+    alert(1)
   },
 
   mouseOver: function mouseOver(ev) {
