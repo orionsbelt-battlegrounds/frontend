@@ -15,7 +15,6 @@ module.exports = React.createClass({
       var columns = _.map(function mapColumns(x) {
         return (
           <td key={x+1}>
-            <UnitCell unitName={"eagle"} quantity={10} />
           </td>
         );
       }, _.range(8));

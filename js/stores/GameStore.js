@@ -12,6 +12,8 @@ var GAME_LOADED_EVENT = "GameStore#GameLoaded";
 
 var GameStore = assign({}, EventEmitter.prototype, {
 
+  selectedElement: null,
+
   "GameStore#loadGame": function(action) {
     var user = CurrentUserStore.getCurrentUser();
     var gameId = _.get(action, "gameId");
@@ -25,6 +27,15 @@ var GameStore = assign({}, EventEmitter.prototype, {
     gateway.createFriendly(user, {}, function afterCreate(game) {
       GameStore.emit(GAME_CREATED_EVENT, _.toClj(game));
     });
+  },
+
+  "GameStore#unitSelected": function unitSelected(action) {
+    console.log("unit selected")
+    this.selectedElement = _.get(action, "element");
+  },
+
+  getSelectedElement: function getSelectedElement() {
+    return this.selectedElement;
   }
 
 });

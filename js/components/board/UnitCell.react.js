@@ -1,8 +1,11 @@
 "use strict";
 
+var _ = require("mori");
 var Router = require('react-router');
 var React = require('react');
 var mori = require("mori");
+var GameActions = require("../../actions/GameActions.js");
+var GameStore = require("../../stores/GameStore.js");
 
 module.exports = React.createClass({
 
@@ -19,7 +22,12 @@ module.exports = React.createClass({
         </div>
       );
     }
-    var config = "units-sprite units-"+this.props.unitName+"_n unit-cell";
+    var selected = "";
+    var element = GameStore.getSelectedElement();
+    if(element && this.props.unitName === _.get(element, "unit")) {
+      selected = "selected";
+    }
+    var config = "units-sprite units-"+this.props.unitName+"_n "+selected+" unit-cell";
     return (
       <div onClick={this.select}
            onMouseOver={this.mouseOver}
@@ -31,7 +39,10 @@ module.exports = React.createClass({
   },
 
   select: function selectUnit(ev) {
-    alert(1)
+    GameActions.unitSelected({
+      unit: this.props.unitName,
+      quantity: this.props.quantity
+    });
   },
 
   mouseOver: function mouseOver(ev) {

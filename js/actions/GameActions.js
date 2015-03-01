@@ -49,8 +49,18 @@ module.exports = {
 
   updateLobby: function updateLobby() {
     AppDispatcher.dispatch(this.updateLobbyData());
-  }
+  },
 
+  unitSelectedData: function unitSelectedData(element) {
+    return _.toClj({
+      actionType : "GameStore#unitSelected",
+      element: element
+    });
+  },
+
+  unitSelected: function unitSelected(element) {
+    AppDispatcher.dispatch(this.unitSelectedData(element));
+  }
 
 };
 
