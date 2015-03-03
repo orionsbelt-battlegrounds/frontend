@@ -46,14 +46,6 @@ module.exports = React.createClass({
     );
   },
 
-  mouseOver: function mouseOver(ev) {
-    this.setState({over:true});
-  },
-
-  mouseOut: function mouseOut(ev) {
-    this.setState({over:false});
-  },
-
   onElementSelected: function elementSelected(element) {
     this.setState({selectedElement:element});
   }

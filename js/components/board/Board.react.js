@@ -42,7 +42,7 @@ module.exports = React.createClass({
         return (
           <td key={key}
               onMouseOver={board.mouseOver.bind(board, key)}
-              onMouseOut={board.mouseOut.bind(board, key)}>
+              onMouseLeave={board.mouseOut.bind(board, key)}>
             {body}
           </td>
         );

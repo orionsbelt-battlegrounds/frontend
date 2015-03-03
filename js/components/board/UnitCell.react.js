@@ -37,7 +37,7 @@ module.exports = React.createClass({
     return (
       <div onClick={this.select}
            onMouseOver={this.mouseOver}
-           onMouseOut={this.mouseOut}
+           onMouseLeave={this.mouseOut}
            className={getCss(this)}>
         {getQuantityPanel(this)}
       </div>
