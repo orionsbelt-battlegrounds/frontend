@@ -15,7 +15,7 @@ module.exports = React.createClass({
 
   render: function () {
     var quantity = null;
-    if(this.state.over) {
+    if(this.state.over || this.props.selected) {
       quantity = (
         <div>
         <span className="label label-default unit-cell-quantity">{this.props.quantity}</span>
@@ -23,8 +23,7 @@ module.exports = React.createClass({
       );
     }
     var selected = "";
-    var element = GameStore.getSelectedElement();
-    if(element && this.props.unitName === _.get(element, "unit")) {
+    if(this.props.selected) {
       selected = "selected";
     }
     var config = "units-sprite units-"+this.props.unitName+"_n "+selected+" unit-cell";

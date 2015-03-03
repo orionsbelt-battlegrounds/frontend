@@ -9,6 +9,7 @@ var CurrentUserStore = require("./CurrentUserStore.js");
 
 var GAME_CREATED_EVENT = "GameStore#GameCreated";
 var GAME_LOADED_EVENT = "GameStore#GameLoaded";
+var ELEMENT_SELECTED_EVENT = "GameStore#ElementSelected";
 
 var GameStore = assign({}, EventEmitter.prototype, {
 
@@ -30,8 +31,8 @@ var GameStore = assign({}, EventEmitter.prototype, {
   },
 
   "GameStore#unitSelected": function unitSelected(action) {
-    console.log("unit selected")
     this.selectedElement = _.get(action, "element");
+    GameStore.emit(ELEMENT_SELECTED_EVENT, _.toClj(this.selectedElement));
   },
 
   getSelectedElement: function getSelectedElement() {
@@ -43,6 +44,7 @@ var GameStore = assign({}, EventEmitter.prototype, {
 var events = require("../utils/events.js");
 events.configure(GameStore, "GameLoaded", GAME_LOADED_EVENT);
 events.configure(GameStore, "GameCreated", GAME_CREATED_EVENT);
+events.configure(GameStore, "ElementSelected", ELEMENT_SELECTED_EVENT);
 
 AppDispatcher.autoDispatch(GameStore);
 
