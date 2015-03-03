@@ -33,6 +33,7 @@ module.exports = React.createClass({
         if(selectedElement && key === _.get(board.state.data, "overedCoordinate")) {
           body = (
             <UnitCell key={name}
+                      selectable={false}
                       unitName={_.get(selectedElement, "unit")}
                       quantity={_.get(selectedElement, "quantity")}
                       selected={true} />

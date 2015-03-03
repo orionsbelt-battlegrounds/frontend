@@ -31,6 +31,7 @@ module.exports = React.createClass({
       var selected = element && (name === _.get(element, "unit"));
       return (
         <UnitCell key={name}
+                  selectable={true}
                   unitName={name}
                   quantity={quantity}
                   selected={selected} />
