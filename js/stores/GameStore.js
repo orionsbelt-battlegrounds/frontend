@@ -31,8 +31,12 @@ var GameStore = assign({}, EventEmitter.prototype, {
   },
 
   "GameStore#unitSelected": function unitSelected(action) {
-    this.selectedElement = _.get(action, "element");
-    GameStore.emit(ELEMENT_SELECTED_EVENT, _.toClj(this.selectedElement));
+    var currentElement = _.toClj(_.get(action, "element"));
+    if(_.equals(currentElement, this.selectedElement)) {
+      currentElement = null;
+    }
+    this.selectedElement = currentElement;
+    GameStore.emit(ELEMENT_SELECTED_EVENT, currentElement);
   },
 
   getSelectedElement: function getSelectedElement() {
