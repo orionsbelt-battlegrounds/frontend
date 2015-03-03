@@ -5,6 +5,7 @@ var Router = require('react-router');
 var React = require('react');
 var mori = require("mori");
 var UnitCell = require('../board/UnitCell.react.js');
+var GameStore = require('../../stores/GameStore.js');
 
 module.exports = React.createClass({
 
@@ -12,13 +13,27 @@ module.exports = React.createClass({
     return {};
   },
 
+  componentDidMount: function() {
+    GameStore.addElementSelectedListener(this.onElementSelected);
+  },
+
+  componentWillUnmount: function() {
+    GameStore.removeElementSelectedListener(this.onElementSelected);
+  },
+
   render: function () {
+    var element = this.state.selectedElement;
     var stash = _.getIn(this.props.game, ["board", "stash", this.props.playerCode]);
+
     var units = _.map(function mapUnits(info) {
       var name = _.get(info, 0);
       var quantity = _.get(info, 1);
+      var selected = element && (name === _.get(element, "unit"));
       return (
-        <UnitCell key={name} unitName={name} quantity={quantity} />
+        <UnitCell key={name}
+                  unitName={name}
+                  quantity={quantity}
+                  selected={selected} />
       );
     }, stash);
 
@@ -31,12 +46,8 @@ module.exports = React.createClass({
     );
   },
 
-  mouseOver: function mouseOver(ev) {
-    this.setState({over:true});
-  },
-
-  mouseOut: function mouseOut(ev) {
-    this.setState({over:false});
+  onElementSelected: function elementSelected(element) {
+    this.setState({selectedElement:element});
   }
 
 });

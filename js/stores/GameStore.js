@@ -9,8 +9,11 @@ var CurrentUserStore = require("./CurrentUserStore.js");
 
 var GAME_CREATED_EVENT = "GameStore#GameCreated";
 var GAME_LOADED_EVENT = "GameStore#GameLoaded";
+var ELEMENT_SELECTED_EVENT = "GameStore#ElementSelected";
 
 var GameStore = assign({}, EventEmitter.prototype, {
+
+  selectedElement: null,
 
   "GameStore#loadGame": function(action) {
     var user = CurrentUserStore.getCurrentUser();
@@ -25,6 +28,19 @@ var GameStore = assign({}, EventEmitter.prototype, {
     gateway.createFriendly(user, {}, function afterCreate(game) {
       GameStore.emit(GAME_CREATED_EVENT, _.toClj(game));
     });
+  },
+
+  "GameStore#unitSelected": function unitSelected(action) {
+    var currentElement = _.toClj(_.get(action, "element"));
+    if(_.equals(currentElement, this.selectedElement)) {
+      currentElement = null;
+    }
+    this.selectedElement = currentElement;
+    GameStore.emit(ELEMENT_SELECTED_EVENT, currentElement);
+  },
+
+  getSelectedElement: function getSelectedElement() {
+    return this.selectedElement;
   }
 
 });
@@ -32,6 +48,7 @@ var GameStore = assign({}, EventEmitter.prototype, {
 var events = require("../utils/events.js");
 events.configure(GameStore, "GameLoaded", GAME_LOADED_EVENT);
 events.configure(GameStore, "GameCreated", GAME_CREATED_EVENT);
+events.configure(GameStore, "ElementSelected", ELEMENT_SELECTED_EVENT);
 
 AppDispatcher.autoDispatch(GameStore);
 

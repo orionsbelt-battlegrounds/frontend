@@ -1,8 +1,31 @@
 "use strict";
 
+var _ = require("mori");
 var Router = require('react-router');
 var React = require('react');
 var mori = require("mori");
+var GameActions = require("../../actions/GameActions.js");
+var GameStore = require("../../stores/GameStore.js");
+
+function getQuantityPanel(component) {
+  var quantity = null;
+  if(component.state.over || component.props.selected) {
+    quantity = (
+      <div>
+      <span className="label label-default unit-cell-quantity">{component.props.quantity}</span>
+      </div>
+    );
+  }
+  return quantity;
+}
+
+function getCss(component) {
+  var selected = "";
+  if(component.props.selected) {
+    selected = "selected";
+  }
+  return "units-sprite units-"+component.props.unitName+"_n "+selected+" unit-cell";
+}
 
 module.exports = React.createClass({
 
@@ -11,27 +34,21 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    var quantity = null;
-    if(this.state.over) {
-      quantity = (
-        <div>
-        <span className="label label-default unit-cell-quantity">{this.props.quantity}</span>
-        </div>
-      );
-    }
-    var config = "units-sprite units-"+this.props.unitName+"_n unit-cell";
     return (
       <div onClick={this.select}
            onMouseOver={this.mouseOver}
-           onMouseOut={this.mouseOut}
-           className={config}>
-        {quantity}
+           onMouseLeave={this.mouseOut}
+           className={getCss(this)}>
+        {getQuantityPanel(this)}
       </div>
     );
   },
 
   select: function selectUnit(ev) {
-    alert(1)
+    GameActions.unitSelected({
+      unit: this.props.unitName,
+      quantity: this.props.quantity
+    });
   },
 
   mouseOver: function mouseOver(ev) {
