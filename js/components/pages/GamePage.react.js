@@ -10,6 +10,7 @@ var GameStore = require('../../stores/GameStore.js');
 var PlayerStash = require('../board/PlayerStash.react.js');
 var Board = require('../board/Board.react.js');
 var GameRoaster = require('../games/GameRoaster.react.js')
+var DeployButton = require('../games/DeployButton.react.js')
 
 var CurrentUserStore = require('../../stores/CurrentUserStore.js');
 
@@ -64,6 +65,7 @@ var GamePage = React.createClass({
         </div>
         <div className="col-lg-3">
           <GameRoaster playerCode={playerCode} game={this.state.game} />
+          <DeployButton playerCode={playerCode} game={this.state.game} />
         </div>
       </div>
     );
