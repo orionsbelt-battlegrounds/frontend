@@ -21,6 +21,7 @@ function makeRequest(user, method, path, data, callback) {
   if(data) {
     postData = JSON.stringify(data);
   }
+  console.log(postData)
   if(window['$']) {
     $.ajax({
       type: method,
@@ -76,6 +77,11 @@ module.exports = {
 
   joinGame: function joinGame(user, gameId, callback) {
     putRequest(user, "/game/"+gameId+"/join", {}, callback);
+  },
+
+  simulateActions: function runActions(user, gameId, actions, callback) {
+    var data = {actions:_.toJs(actions)};
+    putRequest(user, "/game/"+gameId+"/deploy/simulate", data, callback);
   }
 
 }

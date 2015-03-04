@@ -6,6 +6,7 @@ var _ = require("mori");
 
 var UnitCell = require('../board/UnitCell.react.js');
 var GameStore = require('../../stores/GameStore.js');
+var GameActions = require('../../actions/GameActions.js');
 
 module.exports = React.createClass({
 
@@ -42,6 +43,7 @@ module.exports = React.createClass({
 
         return (
           <td key={key}
+              onClick={board.click.bind(board, key)}
               onMouseOver={board.mouseOver.bind(board, key)}
               onMouseLeave={board.mouseOut.bind(board, key)}>
             {body}
@@ -74,6 +76,10 @@ module.exports = React.createClass({
   mouseOut: function mouseOut(ev) {
     var newState = _.dissoc(this.state.data, "overedCoordinate");
     this.setState({data:newState});
+  },
+
+  click: function click(key) {
+    GameActions.coordinateSelected(key);
   }
 
 });
