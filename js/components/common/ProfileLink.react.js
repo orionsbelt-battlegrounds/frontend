@@ -15,7 +15,11 @@ module.exports = React.createClass({
     }
     var label = this.props.token || username;
     return (
-      <Link to="profile" params={{username:username}}>{label}</Link>
+      <Link to="profile"
+            params={{username:username}}
+            className={this.props.className}>
+        {label}
+      </Link>
     );
   }
 
