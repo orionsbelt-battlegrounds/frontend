@@ -6,6 +6,7 @@ var assign = require('object-assign');
 var _ = require("mori");
 var gateway = require("../utils/gateway.js");
 var CurrentUserStore = require("./CurrentUserStore.js");
+var GameActions = require("../actions/GameActions.js");
 
 var GAME_CREATED_EVENT = "GameStore#GameCreated";
 var GAME_LOADED_EVENT = "GameStore#GameLoaded";
@@ -15,7 +16,7 @@ function buildCoordinate(coord) {
   return _.vector(parseInt(coord[0]), parseInt(coord[2]));
 }
 
-function runDeployAction(user, actions, callback) {
+function runDeployAction(callback) {
   var user = CurrentUserStore.getCurrentUser();
   var gameId = _.get(GameStore.currentGame, "_id");
   var actions = GameStore.currentActions;
@@ -101,7 +102,7 @@ var GameStore = assign({}, EventEmitter.prototype, {
 
   "GameStore#deploy": function deployGame(action) {
     runDeployAction(function success(game) {
-      GameActions.loadGame(gameId);
+      GameActions.loadGame(game["_id"]);
     });
   },
 
