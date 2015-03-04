@@ -71,6 +71,17 @@ module.exports = {
 
   coordinateSelected: function coordinateSelected(coordinate) {
     AppDispatcher.dispatch(this.coordinateSelectedData(coordinate));
+  },
+
+  deployGameData: function deployGameData(game) {
+    return _.toClj({
+      actionType : "GameStore#deploy",
+      game: game
+    });
+  },
+
+  deployGame: function deployGame(game) {
+    AppDispatcher.dispatch(this.deployGameData(game));
   }
 
 };

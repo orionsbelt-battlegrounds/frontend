@@ -6,6 +6,7 @@ var assign = require('object-assign');
 var _ = require("mori");
 var gateway = require("../utils/gateway.js");
 var CurrentUserStore = require("./CurrentUserStore.js");
+var GameActions = require("../actions/GameActions.js");
 
 var GAME_CREATED_EVENT = "GameStore#GameCreated";
 var GAME_LOADED_EVENT = "GameStore#GameLoaded";
@@ -15,7 +16,16 @@ function buildCoordinate(coord) {
   return _.vector(parseInt(coord[0]), parseInt(coord[2]));
 }
 
-function runDeployAction(element, coordinate, callback, errorCallback) {
+function runDeployAction(callback) {
+  var user = CurrentUserStore.getCurrentUser();
+  var gameId = _.get(GameStore.currentGame, "_id");
+  var actions = GameStore.currentActions;
+  gateway.runActions(user, gameId, actions, callback, function error() {
+    alert("Nhac");
+  });
+}
+
+function simulateDeployActions(element, coordinate, callback, errorCallback) {
   // [:deploy 10 :rain [8 8]]
   var quantity = _.get(element, "quantity");
   var unit = _.get(element, "unit");
@@ -37,6 +47,7 @@ var GameStore = assign({}, EventEmitter.prototype, {
 
   selectedElement: null,
   currentGame: null,
+  originalGame: null,
   currentActions: _.vector(),
 
   isDeploy: function isDeploy() {
@@ -49,6 +60,7 @@ var GameStore = assign({}, EventEmitter.prototype, {
     var store = this;
     gateway.loadGame(user, gameId, function afterLoadGame(game) {
       store.currentGame = _.toClj(game);
+      store.originalGame = store.currentGame;
       store.currentActions = _.vector();
       GameStore.emit(GAME_LOADED_EVENT, store.currentGame);
     });
@@ -77,7 +89,7 @@ var GameStore = assign({}, EventEmitter.prototype, {
     var coordinate = _.get(action, "coordinate");
     var store = this;
     if(this.isDeploy()) {
-      runDeployAction(this.selectedElement, coordinate, function success(game) {
+      simulateDeployActions(this.selectedElement, coordinate, function success(game) {
         store.selectedElement = null;
         GameStore.emit(ELEMENT_SELECTED_EVENT, store.selectedElement);
 
@@ -86,6 +98,12 @@ var GameStore = assign({}, EventEmitter.prototype, {
       });
     } else {
     }
+  },
+
+  "GameStore#deploy": function deployGame(action) {
+    runDeployAction(function success(game) {
+      GameActions.loadGame(game["_id"]);
+    });
   },
 
   getSelectedElement: function getSelectedElement() {
