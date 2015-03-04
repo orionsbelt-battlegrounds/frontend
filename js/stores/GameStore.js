@@ -15,20 +15,29 @@ function buildCoordinate(coord) {
   return _.vector(parseInt(coord[0]), parseInt(coord[2]));
 }
 
-function runDeployAction(element, coordinate, callback) {
+function runDeployAction(element, coordinate, callback, errorCallback) {
   // [:deploy 10 :rain [8 8]]
   var quantity = _.get(element, "quantity");
   var unit = _.get(element, "unit");
   var action = _.vector("deploy", quantity, unit, buildCoordinate(coordinate));
   var gameId = _.get(GameStore.currentGame, "_id");
   var user = CurrentUserStore.getCurrentUser();
-  gateway.simulateActions(user, gameId, _.vector(action), callback);
+
+  var actions = _.conj(GameStore.currentActions, action);
+
+  gateway.simulateActions(user, gameId, actions, function success(game) {
+    GameStore.currentActions = actions;
+    callback(game);
+  }, function error() {
+    alert("Nhac");
+  });
 }
 
 var GameStore = assign({}, EventEmitter.prototype, {
 
   selectedElement: null,
   currentGame: null,
+  currentActions: _.vector(),
 
   isDeploy: function isDeploy() {
     return this.currentGame && _.getIn(this.currentGame, ["board", "state"]) === "deploy";
@@ -67,7 +76,7 @@ var GameStore = assign({}, EventEmitter.prototype, {
     var coordinate = _.get(action, "coordinate");
     var store = this;
     if(this.isDeploy()) {
-      runDeployAction(this.selectedElement, coordinate, function(game) {
+      runDeployAction(this.selectedElement, coordinate, function success(game) {
         store.selectedElement = null;
         GameStore.emit(ELEMENT_SELECTED_EVENT, store.selectedElement);
 
