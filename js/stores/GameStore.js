@@ -46,6 +46,7 @@ var GameStore = assign({}, EventEmitter.prototype, {
 
   selectedElement: null,
   currentGame: null,
+  originalGame: null,
   currentActions: _.vector(),
 
   isDeploy: function isDeploy() {
@@ -58,6 +59,7 @@ var GameStore = assign({}, EventEmitter.prototype, {
     var store = this;
     gateway.loadGame(user, gameId, function afterLoadGame(game) {
       store.currentGame = _.toClj(game);
+      store.originalGame = store.currentGame;
       store.currentActions = _.vector();
       GameStore.emit(GAME_LOADED_EVENT, store.currentGame);
     });

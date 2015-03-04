@@ -15,10 +15,13 @@ module.exports = React.createClass({
     var game = this.props.game;
     var state = _.getIn(game, ["board", "state"]);
     var stash = _.getIn(game, ["board", "stash", this.props.playerCode]);
+    var originalStash = _.getIn(this.props.originalGame, ["board", "stash", this.props.playerCode]);
 
     var css = "btn btn-info";
     if("deploy" === state) {
-      if(!_.isEmpty(stash)) {
+      if(_.isEmpty(originalStash)) {
+        css = "hide";
+      } else if(!_.isEmpty(stash)) {
         css = "btn btn-default disabled";
       }
     } else {

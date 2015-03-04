@@ -55,6 +55,7 @@ var GamePage = React.createClass({
     }
 
     var playerCode = getCurrentPlayerCode(this.state.game);
+    var originalGame = GameStore.originalGame;
 
     return (
       <div className="row">
@@ -65,7 +66,7 @@ var GamePage = React.createClass({
         </div>
         <div className="col-lg-3">
           <GameRoaster playerCode={playerCode} game={this.state.game} />
-          <DeployButton playerCode={playerCode} game={this.state.game} />
+          <DeployButton playerCode={playerCode} game={this.state.game} originalGame={originalGame} />
         </div>
       </div>
     );
