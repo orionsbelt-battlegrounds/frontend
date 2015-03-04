@@ -15,7 +15,16 @@ function buildCoordinate(coord) {
   return _.vector(parseInt(coord[0]), parseInt(coord[2]));
 }
 
-function runDeployAction(element, coordinate, callback, errorCallback) {
+function runDeployAction(user, actions, callback) {
+  var user = CurrentUserStore.getCurrentUser();
+  var gameId = _.get(GameStore.currentGame, "_id");
+  var actions = GameStore.currentActions;
+  gateway.runActions(user, gameId, actions, callback, function error() {
+    alert("Nhac");
+  });
+}
+
+function simulateDeployActions(element, coordinate, callback, errorCallback) {
   // [:deploy 10 :rain [8 8]]
   var quantity = _.get(element, "quantity");
   var unit = _.get(element, "unit");
@@ -77,7 +86,7 @@ var GameStore = assign({}, EventEmitter.prototype, {
     var coordinate = _.get(action, "coordinate");
     var store = this;
     if(this.isDeploy()) {
-      runDeployAction(this.selectedElement, coordinate, function success(game) {
+      simulateDeployActions(this.selectedElement, coordinate, function success(game) {
         store.selectedElement = null;
         GameStore.emit(ELEMENT_SELECTED_EVENT, store.selectedElement);
 
@@ -86,6 +95,12 @@ var GameStore = assign({}, EventEmitter.prototype, {
       });
     } else {
     }
+  },
+
+  "GameStore#deploy": function deployGame(action) {
+    runDeployAction(function success(game) {
+      GameActions.loadGame(gameId);
+    });
   },
 
   getSelectedElement: function getSelectedElement() {

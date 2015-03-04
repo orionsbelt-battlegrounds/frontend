@@ -85,6 +85,14 @@ module.exports = {
       user, "/game/"+gameId+"/deploy/simulate", data,
       callback, errorCallback
     );
+  },
+
+  runActions: function runActions(user, gameId, actions, callback, errorCallback) {
+    var data = {actions:_.toJs(actions)};
+    putRequest(
+      user, "/game/"+gameId+"/deploy", data,
+      callback, errorCallback
+    );
   }
 
 }

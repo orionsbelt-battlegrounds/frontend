@@ -7,6 +7,7 @@ var mori = require("mori");
 var UnitCell = require('../board/UnitCell.react.js');
 var GameStore = require('../../stores/GameStore.js');
 var ProfileLink = require('../common/ProfileLink.react.js');
+var GameActions = require('../../actions/GameActions.js');
 
 module.exports = React.createClass({
 
@@ -23,9 +24,14 @@ module.exports = React.createClass({
     } else {
       css = "hide";
     }
+
     return (
-      <a href="#" className={css}>Deploy</a>
+      <a onClick={this.click} className={css}>Deploy</a>
     );
+  },
+
+  click: function click(ev) {
+    GameActions.deployGame(this.props.game);
   }
 
 });
