@@ -40,6 +40,16 @@ module.exports = React.createClass({
                       selected={true} />
           );
         }
+        var coordinateElement = _.getIn(board.props.game, ["board", "elements", "["+(x+1)+" "+(y+1)+"]"]);
+        if(coordinateElement) {
+          body = (
+            <UnitCell key={key}
+                      selectable={false}
+                      unitName={_.get(coordinateElement, "unit")}
+                      quantity={_.get(coordinateElement, "quantity")}
+                      selected={false} />
+          );
+        }
 
         return (
           <td key={key}

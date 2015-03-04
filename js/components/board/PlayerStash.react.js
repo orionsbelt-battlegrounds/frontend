@@ -25,6 +25,10 @@ module.exports = React.createClass({
     var element = this.state.selectedElement;
     var stash = _.getIn(this.props.game, ["board", "stash", this.props.playerCode]);
 
+    if(_.isEmpty(stash)) {
+      return <section className="emptyStash" />;
+    }
+
     var units = _.map(function mapUnits(info) {
       var name = _.get(info, 0);
       var quantity = _.get(info, 1);
