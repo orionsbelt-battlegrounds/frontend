@@ -9,7 +9,7 @@ function uniquify(path) {
   return path + "&t=" + (new Date().getTime());
 }
 
-function makeRequest(user, method, path, data, callback) {
+function makeRequest(user, method, path, data, callback, errorCallback) {
   var url = OBB_API_URL + uniquify(path);
   var headers = null;
   if(user) {
@@ -28,7 +28,8 @@ function makeRequest(user, method, path, data, callback) {
       contentType: "application/json",
       data: postData,
       headers: headers,
-      success: callback
+      success: callback,
+      error: errorCallback
     });
   }
 }
@@ -45,8 +46,8 @@ function postRequest(user, path, data, callback) {
   makeRequest(user, "POST", path, data, callback);
 }
 
-function putRequest(user, path, data, callback) {
-  makeRequest(user, "PUT", path, data, callback);
+function putRequest(user, path, data, callback, errorCallback) {
+  makeRequest(user, "PUT", path, data, callback, errorCallback);
 }
 
 module.exports = {
@@ -76,6 +77,14 @@ module.exports = {
 
   joinGame: function joinGame(user, gameId, callback) {
     putRequest(user, "/game/"+gameId+"/join", {}, callback);
+  },
+
+  simulateActions: function runActions(user, gameId, actions, callback, errorCallback) {
+    var data = {actions:_.toJs(actions)};
+    putRequest(
+      user, "/game/"+gameId+"/deploy/simulate", data,
+      callback, errorCallback
+    );
   }
 
 }

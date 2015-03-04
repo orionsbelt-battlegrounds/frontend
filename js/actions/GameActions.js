@@ -60,6 +60,17 @@ module.exports = {
 
   unitSelected: function unitSelected(element) {
     AppDispatcher.dispatch(this.unitSelectedData(element));
+  },
+
+  coordinateSelectedData: function boardPositionSelectedData(coordinate) {
+    return _.toClj({
+      actionType : "GameStore#coordinateSelected",
+      coordinate: coordinate
+    });
+  },
+
+  coordinateSelected: function coordinateSelected(coordinate) {
+    AppDispatcher.dispatch(this.coordinateSelectedData(coordinate));
   }
 
 };

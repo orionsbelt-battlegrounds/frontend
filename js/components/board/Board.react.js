@@ -6,6 +6,7 @@ var _ = require("mori");
 
 var UnitCell = require('../board/UnitCell.react.js');
 var GameStore = require('../../stores/GameStore.js');
+var GameActions = require('../../actions/GameActions.js');
 
 module.exports = React.createClass({
 
@@ -33,14 +34,26 @@ module.exports = React.createClass({
         if(selectedElement && key === _.get(board.state.data, "overedCoordinate")) {
           body = (
             <UnitCell key={name}
+                      selectable={false}
                       unitName={_.get(selectedElement, "unit")}
                       quantity={_.get(selectedElement, "quantity")}
                       selected={true} />
           );
         }
+        var coordinateElement = _.getIn(board.props.game, ["board", "elements", "["+(x+1)+" "+(y+1)+"]"]);
+        if(coordinateElement) {
+          body = (
+            <UnitCell key={key}
+                      selectable={false}
+                      unitName={_.get(coordinateElement, "unit")}
+                      quantity={_.get(coordinateElement, "quantity")}
+                      selected={false} />
+          );
+        }
 
         return (
           <td key={key}
+              onClick={board.click.bind(board, key)}
               onMouseOver={board.mouseOver.bind(board, key)}
               onMouseLeave={board.mouseOut.bind(board, key)}>
             {body}
@@ -73,6 +86,10 @@ module.exports = React.createClass({
   mouseOut: function mouseOut(ev) {
     var newState = _.dissoc(this.state.data, "overedCoordinate");
     this.setState({data:newState});
+  },
+
+  click: function click(key) {
+    GameActions.coordinateSelected(key);
   }
 
 });

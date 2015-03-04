@@ -35,7 +35,7 @@ module.exports = React.createClass({
 
   render: function () {
     return (
-      <div onClick={this.select}
+      <div onClick={this.props.selectable ? this.select : null}
            onMouseOver={this.mouseOver}
            onMouseLeave={this.mouseOut}
            className={getCss(this)}>
