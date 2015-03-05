@@ -20,11 +20,15 @@ function printCoordinate(coord) {
   return "[" + coord[0] + " " + coord[2] + "]";
 }
 
+function runTurnAction(callback) {
+  return runDeployAction(callback);
+}
+
 function runDeployAction(callback) {
   var user = CurrentUserStore.getCurrentUser();
-  var gameId = _.get(GameStore.currentGame, "_id");
+  var game = GameStore.currentGame;
   var actions = GameStore.currentActions;
-  gateway.runActions(user, gameId, actions, callback, notifyError);
+  gateway.runActions(user, game, actions, callback, notifyError);
 }
 
 function simulateDeployActions(element, coordinate, callback, errorCallback) {
@@ -160,8 +164,18 @@ var GameStore = assign({}, EventEmitter.prototype, {
     });
   },
 
+  "GameStore#sendTurn": function playTurn(action) {
+    runTurnAction(function success(game) {
+      GameActions.loadGame(game["_id"]);
+    });
+  },
+
   getSelectedElement: function getSelectedElement() {
     return this.selectedElement;
+  },
+
+  isCurrentUserTurn: function isCurrentUserTurn() {
+    return this.getCurrentPlayerCode() === _.getIn(this.currentGame, ["board", "state"]);
   },
 
   getCurrentPlayerCode: function getCurrentPlayerCode(givenGame) {

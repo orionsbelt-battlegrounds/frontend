@@ -84,6 +84,17 @@ module.exports = {
     AppDispatcher.dispatch(this.deployGameData(game));
   },
 
+  sendTurnData: function sendTurnData(game) {
+    return _.toClj({
+      actionType : "GameStore#sendTurn",
+      game: game
+    });
+  },
+
+  sendTurn: function sendTurn(game) {
+    AppDispatcher.dispatch(this.sendTurnData(game));
+  },
+
   undoLastActionData: function undoLastActionData() {
     return _.toClj({
       actionType : "GameStore#undoLastAction"

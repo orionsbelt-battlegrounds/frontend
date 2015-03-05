@@ -89,12 +89,14 @@ module.exports = {
     putRequest(user, url, data, callback, errorCallback);
   },
 
-  runActions: function runActions(user, gameId, actions, callback, errorCallback) {
+  runActions: function runActions(user, game, actions, callback, errorCallback) {
     var data = {actions:_.toJs(actions)};
-    putRequest(
-      user, "/game/"+gameId+"/deploy", data,
-      callback, errorCallback
-    );
+    var gameId = _.get(game, "_id");
+    var url = "/game/"+gameId+"/deploy";
+    if("deploy" !== _.getIn(game, ["board", "state"])) {
+      url = "/game/"+gameId+"/turn";
+    }
+    putRequest(user, url, data,callback, errorCallback);
   }
 
 }
