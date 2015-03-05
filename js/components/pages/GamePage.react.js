@@ -50,7 +50,6 @@ var GamePage = React.createClass({
 
     return (
       <div className="row">
-        <p>Still working on this. come back in a week. :-)</p>
         <div className="col-lg-6">
           <Board game={this.state.game} />
           <PlayerStash playerCode={playerCode} game={this.state.game} />
