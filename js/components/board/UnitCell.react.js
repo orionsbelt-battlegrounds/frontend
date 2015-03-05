@@ -42,6 +42,15 @@ function wrapEnemy(component) {
   );
 }
 
+function wrapSelected(component) {
+  return (
+    <div>
+      <div className="unitSelected"></div>
+      {rawUnit(component)}
+    </div>
+  );
+}
+
 function rawUnit(component) {
   return (
     <div onClick={component.props.selectable ? component.select : null}
@@ -62,6 +71,8 @@ module.exports = React.createClass({
   render: function () {
     if(this.props.enemy) {
       return wrapEnemy(this);
+    } else if(this.props.selected) {
+      return wrapSelected(this);
     }
     return rawUnit(this);
   },
