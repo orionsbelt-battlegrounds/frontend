@@ -137,6 +137,7 @@ var GameStore = assign({}, EventEmitter.prototype, {
           action = _.vector("goto", _.get(this.selectedElement, "coordinate"), buildCoordinate(coordinate));
           console.log("Goto " + coordStr)
         } else if(this.selectedElement){
+          action = _.vector("attack", _.get(this.selectedElement, "coordinate"), buildCoordinate(coordinate));
           console.log("Attack " + coordStr)
         }
         simulateTurnActions(action, function success(game) {
