@@ -37,17 +37,21 @@ module.exports = React.createClass({
                       selectable={false}
                       unitName={_.get(selectedElement, "unit")}
                       quantity={_.get(selectedElement, "quantity")}
+                      direction={_.get(selectedElement, "direction")}
                       selected={true} />
           );
         }
         var coordinateElement = _.getIn(board.props.game, ["board", "elements", "["+(x+1)+" "+(y+1)+"]"]);
         if(coordinateElement) {
+          var selected = _.equals(selectedElement, coordinateElement);
           body = (
             <UnitCell key={key}
                       selectable={false}
                       unitName={_.get(coordinateElement, "unit")}
                       quantity={_.get(coordinateElement, "quantity")}
-                      selected={false} />
+                      direction={_.get(coordinateElement, "direction")}
+                      enemy={_.get(coordinateElement, "player") !== GameStore.getCurrentPlayerCode()}
+                      selected={selected} />
           );
         }
 

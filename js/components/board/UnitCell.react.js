@@ -19,12 +19,47 @@ function getQuantityPanel(component) {
   return quantity;
 }
 
+function getDirection(component) {
+  var direction = component.props.direction || "north";
+  return direction[0];
+}
+
 function getCss(component) {
   var selected = "";
   if(component.props.selected) {
     selected = "selected";
   }
-  return "units-sprite units-"+component.props.unitName+"_n "+selected+" unit-cell";
+  var dir = getDirection(component);
+  return "units-sprite units-"+component.props.unitName+"_"+dir+" "+selected+" unit-cell";
+}
+
+function wrapEnemy(component) {
+  return (
+    <div>
+      <div className="enemy"></div>
+      {rawUnit(component)}
+    </div>
+  );
+}
+
+function wrapSelected(component) {
+  return (
+    <div>
+      <div className="unitSelected"></div>
+      {rawUnit(component)}
+    </div>
+  );
+}
+
+function rawUnit(component) {
+  return (
+    <div onClick={component.props.selectable ? component.select : null}
+         onMouseOver={component.mouseOver}
+         onMouseLeave={component.mouseOut}
+         className={getCss(component)}>
+      {getQuantityPanel(component)}
+    </div>
+  );
 }
 
 module.exports = React.createClass({
@@ -34,14 +69,12 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    return (
-      <div onClick={this.props.selectable ? this.select : null}
-           onMouseOver={this.mouseOver}
-           onMouseLeave={this.mouseOut}
-           className={getCss(this)}>
-        {getQuantityPanel(this)}
-      </div>
-    );
+    if(this.props.enemy) {
+      return wrapEnemy(this);
+    } else if(this.props.selected) {
+      return wrapSelected(this);
+    }
+    return rawUnit(this);
   },
 
   select: function selectUnit(ev) {

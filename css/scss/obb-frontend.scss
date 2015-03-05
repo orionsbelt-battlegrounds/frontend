@@ -107,5 +107,21 @@ table.gamesPreview tr td.unitRoaster {
 }
 
 .selected {
-  opacity:0.5;
+  opacity:0.8;
+}
+
+.enemy {
+  background-color:red;
+  opacity:0.2;
+  width:50px;
+  height:50px;
+  position:absolute;
+}
+
+.unitSelected {
+  background-color:green;
+  opacity:0.2;
+  width:50px;
+  height:50px;
+  position:absolute;
 }
