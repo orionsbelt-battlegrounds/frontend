@@ -37,6 +37,7 @@ module.exports = React.createClass({
                       selectable={false}
                       unitName={_.get(selectedElement, "unit")}
                       quantity={_.get(selectedElement, "quantity")}
+                      direction={_.get(selectedElement, "direction")}
                       selected={true} />
           );
         }
@@ -47,6 +48,7 @@ module.exports = React.createClass({
                       selectable={false}
                       unitName={_.get(coordinateElement, "unit")}
                       quantity={_.get(coordinateElement, "quantity")}
+                      direction={_.get(coordinateElement, "direction")}
                       selected={false} />
           );
         }

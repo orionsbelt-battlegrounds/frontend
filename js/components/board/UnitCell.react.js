@@ -19,12 +19,18 @@ function getQuantityPanel(component) {
   return quantity;
 }
 
+function getDirection(component) {
+  var direction = component.props.direction || "north";
+  return direction[0];
+}
+
 function getCss(component) {
   var selected = "";
   if(component.props.selected) {
     selected = "selected";
   }
-  return "units-sprite units-"+component.props.unitName+"_n "+selected+" unit-cell";
+  var dir = getDirection(component);
+  return "units-sprite units-"+component.props.unitName+"_"+dir+" "+selected+" unit-cell";
 }
 
 module.exports = React.createClass({
