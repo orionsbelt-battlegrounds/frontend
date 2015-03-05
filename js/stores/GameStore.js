@@ -60,7 +60,12 @@ function simulateTurnActions(action, callback, errorCallback) {
 
 function notifyError(xhr) {
   var data = $.parseJSON(xhr.responseText);
-  alert(data.message);
+  if(data.message === "ActionFailed") {
+    data = data["board"]["action-results"][0][1];
+    alert(data.message)
+  } else {
+    alert(data.message);
+  }
 }
 
 var GameStore = assign({}, EventEmitter.prototype, {
