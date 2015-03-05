@@ -82,6 +82,16 @@ module.exports = {
 
   deployGame: function deployGame(game) {
     AppDispatcher.dispatch(this.deployGameData(game));
+  },
+
+  undoLastActionData: function undoLastActionData() {
+    return _.toClj({
+      actionType : "GameStore#undoLastAction"
+    });
+  },
+
+  undoLastAction: function undoLastAction() {
+    AppDispatcher.dispatch(this.undoLastActionData());
   }
 
 };

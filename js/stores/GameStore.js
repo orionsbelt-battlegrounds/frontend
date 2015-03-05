@@ -108,6 +108,9 @@ var GameStore = assign({}, EventEmitter.prototype, {
     GameStore.emit(ELEMENT_SELECTED_EVENT, currentElement);
   },
 
+  "GameStore#undoLastAction": function undoLastAction() {
+  },
+
   "GameStore#coordinateSelected": function coordinateSelected(action) {
     var coordinate = _.get(action, "coordinate");
     var store = this;

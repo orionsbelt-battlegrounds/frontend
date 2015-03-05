@@ -11,6 +11,7 @@ var PlayerStash = require('../board/PlayerStash.react.js');
 var Board = require('../board/Board.react.js');
 var GameRoaster = require('../games/GameRoaster.react.js')
 var DeployButton = require('../games/DeployButton.react.js')
+var UndoActionButton = require('../games/UndoActionButton.react.js')
 
 var CurrentUserStore = require('../../stores/CurrentUserStore.js');
 
@@ -56,6 +57,8 @@ var GamePage = React.createClass({
         <div className="col-lg-3">
           <GameRoaster playerCode={playerCode} game={this.state.game} />
           <DeployButton playerCode={playerCode} game={this.state.game} originalGame={originalGame} />
+
+          <UndoActionButton />
         </div>
       </div>
     );
