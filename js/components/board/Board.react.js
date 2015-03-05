@@ -49,6 +49,7 @@ module.exports = React.createClass({
                       unitName={_.get(coordinateElement, "unit")}
                       quantity={_.get(coordinateElement, "quantity")}
                       direction={_.get(coordinateElement, "direction")}
+                      enemy={_.get(coordinateElement, "player") !== GameStore.getCurrentPlayerCode()}
                       selected={false} />
           );
         }

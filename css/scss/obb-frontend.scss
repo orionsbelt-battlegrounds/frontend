@@ -109,3 +109,11 @@ table.gamesPreview tr td.unitRoaster {
 .selected {
   opacity:0.5;
 }
+
+.enemy {
+  background-color:red;
+  opacity:0.2;
+  width:50px;
+  height:50px;
+  position:absolute;
+}

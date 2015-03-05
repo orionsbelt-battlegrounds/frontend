@@ -33,6 +33,26 @@ function getCss(component) {
   return "units-sprite units-"+component.props.unitName+"_"+dir+" "+selected+" unit-cell";
 }
 
+function wrapEnemy(component) {
+  return (
+    <div>
+      <div className="enemy"></div>
+      {rawUnit(component)}
+    </div>
+  );
+}
+
+function rawUnit(component) {
+  return (
+    <div onClick={component.props.selectable ? component.select : null}
+         onMouseOver={component.mouseOver}
+         onMouseLeave={component.mouseOut}
+         className={getCss(component)}>
+      {getQuantityPanel(component)}
+    </div>
+  );
+}
+
 module.exports = React.createClass({
 
   getInitialState: function() {
@@ -40,14 +60,10 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    return (
-      <div onClick={this.props.selectable ? this.select : null}
-           onMouseOver={this.mouseOver}
-           onMouseLeave={this.mouseOut}
-           className={getCss(this)}>
-        {getQuantityPanel(this)}
-      </div>
-    );
+    if(this.props.enemy) {
+      return wrapEnemy(this);
+    }
+    return rawUnit(this);
   },
 
   select: function selectUnit(ev) {
