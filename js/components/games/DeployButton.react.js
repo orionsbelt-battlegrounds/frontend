@@ -13,10 +13,13 @@ module.exports = React.createClass({
 
   render: function () {
     var game = this.props.game;
-    var state = _.getIn(game, ["board", "state"]);
     var stash = _.getIn(game, ["board", "stash", this.props.playerCode]);
-    var originalStash = _.getIn(this.props.originalGame, ["board", "stash", this.props.playerCode]);
 
+    var originalGame = this.props.originalGame;
+    var state = _.getIn(originalGame, ["board", "state"]);
+    var originalStash = _.getIn(originalGame, ["board", "stash", this.props.playerCode]);
+
+    console.log(state)
     var css = "btn btn-info";
     if("deploy" === state) {
       if(_.isEmpty(originalStash)) {
