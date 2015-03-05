@@ -24,9 +24,7 @@ function runDeployAction(callback) {
   var user = CurrentUserStore.getCurrentUser();
   var gameId = _.get(GameStore.currentGame, "_id");
   var actions = GameStore.currentActions;
-  gateway.runActions(user, gameId, actions, callback, function error() {
-    alert("Nhac");
-  });
+  gateway.runActions(user, gameId, actions, callback, notifyError);
 }
 
 function simulateDeployActions(element, coordinate, callback, errorCallback) {
@@ -42,9 +40,7 @@ function simulateDeployActions(element, coordinate, callback, errorCallback) {
   gateway.simulateActions(user, game, actions, function success(game) {
     GameStore.currentActions = actions;
     callback(game);
-  }, function error() {
-    alert("Nhac");
-  });
+  }, notifyError);
 }
 
 function simulateTurnActions(action, callback, errorCallback) {
@@ -59,9 +55,12 @@ function simulateTurnActions(action, callback, errorCallback) {
   gateway.simulateActions(user, game, actions, function success(game) {
     GameStore.currentActions = actions;
     callback(game);
-  }, function error() {
-    alert("Nhac");
-  });
+  }, notifyError);
+}
+
+function notifyError(xhr) {
+  var data = $.parseJSON(xhr.responseText);
+  alert(data.message);
 }
 
 var GameStore = assign({}, EventEmitter.prototype, {
