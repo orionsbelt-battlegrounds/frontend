@@ -79,12 +79,14 @@ module.exports = {
     putRequest(user, "/game/"+gameId+"/join", {}, callback);
   },
 
-  simulateActions: function runActions(user, gameId, actions, callback, errorCallback) {
+  simulateActions: function runActions(user, game, actions, callback, errorCallback) {
     var data = {actions:_.toJs(actions)};
-    putRequest(
-      user, "/game/"+gameId+"/deploy/simulate", data,
-      callback, errorCallback
-    );
+    var gameId = _.get(game, "_id");
+    var url = "/game/"+gameId+"/deploy/simulate";
+    if("deploy" !== _.getIn(game, ["board", "state"])) {
+      url = "/game/"+gameId+"/turn/simulate";
+    }
+    putRequest(user, url, data, callback, errorCallback);
   },
 
   runActions: function runActions(user, gameId, actions, callback, errorCallback) {

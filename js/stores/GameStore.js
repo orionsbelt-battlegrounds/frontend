@@ -34,12 +34,29 @@ function simulateDeployActions(element, coordinate, callback, errorCallback) {
   var quantity = _.get(element, "quantity");
   var unit = _.get(element, "unit");
   var action = _.vector("deploy", quantity, unit, buildCoordinate(coordinate));
-  var gameId = _.get(GameStore.currentGame, "_id");
+  var game = GameStore.currentGame;
   var user = CurrentUserStore.getCurrentUser();
 
   var actions = _.conj(GameStore.currentActions, action);
 
-  gateway.simulateActions(user, gameId, actions, function success(game) {
+  gateway.simulateActions(user, game, actions, function success(game) {
+    GameStore.currentActions = actions;
+    callback(game);
+  }, function error() {
+    alert("Nhac");
+  });
+}
+
+function simulateTurnActions(action, callback, errorCallback) {
+  if(!action) {
+    return;
+  }
+  var game = GameStore.currentGame;
+  var user = CurrentUserStore.getCurrentUser();
+
+  var actions = _.conj(GameStore.currentActions, action);
+
+  gateway.simulateActions(user, game, actions, function success(game) {
     GameStore.currentActions = actions;
     callback(game);
   }, function error() {
@@ -104,12 +121,27 @@ var GameStore = assign({}, EventEmitter.prototype, {
     } else {
       var code = this.getCurrentPlayerCode();
       var state = _.getIn(this.currentGame, ["board", "state"]);
+      var coordStr = printCoordinate(coordinate);
       if(state === code) {
-        var element = _.getIn(this.currentGame, ["board", "elements", printCoordinate(coordinate)]);
+        var element = _.getIn(this.currentGame, ["board", "elements", coordStr]);
         var elementCode = _.get(element, "player");
+        var action = null;
         if(elementCode === code) {
+          console.log("Select " + coordStr)
           this["GameStore#unitSelected"](element);
+        } else if(!element && this.selectedElement) {
+          action = _.vector("goto", _.get(this.selectedElement, "coordinate"), buildCoordinate(coordinate));
+          console.log("Goto " + coordStr)
+        } else if(this.selectedElement){
+          console.log("Attack " + coordStr)
         }
+        simulateTurnActions(action, function success(game) {
+          store.selectedElement = null;
+          GameStore.emit(ELEMENT_SELECTED_EVENT, store.selectedElement);
+
+          store.currentGame = _.toClj(game);
+          GameStore.emit(GAME_LOADED_EVENT, store.currentGame);
+        });
       }
     }
   },
