@@ -16,6 +16,10 @@ function buildCoordinate(coord) {
   return _.vector(parseInt(coord[0]), parseInt(coord[2]));
 }
 
+function printCoordinate(coord) {
+  return "[" + coord[0] + " " + coord[2] + "]";
+}
+
 function runDeployAction(callback) {
   var user = CurrentUserStore.getCurrentUser();
   var gameId = _.get(GameStore.currentGame, "_id");
@@ -74,21 +78,22 @@ var GameStore = assign({}, EventEmitter.prototype, {
   },
 
   "GameStore#unitSelected": function unitSelected(action) {
-    var currentElement = _.toClj(_.get(action, "element"));
+    var currentElement = _.toClj(_.get(action, "element")) || action;
     if(_.equals(currentElement, this.selectedElement)) {
       currentElement = null;
     }
     this.selectedElement = currentElement;
+    console.log(_.toJs(this.selectedElement));
     GameStore.emit(ELEMENT_SELECTED_EVENT, currentElement);
   },
 
   "GameStore#coordinateSelected": function coordinateSelected(action) {
-    if(!this.selectedElement) {
-      return;
-    }
     var coordinate = _.get(action, "coordinate");
     var store = this;
     if(this.isDeploy()) {
+      if(!this.selectedElement) {
+        return;
+      }
       simulateDeployActions(this.selectedElement, coordinate, function success(game) {
         store.selectedElement = null;
         GameStore.emit(ELEMENT_SELECTED_EVENT, store.selectedElement);
@@ -97,6 +102,15 @@ var GameStore = assign({}, EventEmitter.prototype, {
         GameStore.emit(GAME_LOADED_EVENT, store.currentGame);
       });
     } else {
+      var code = this.getCurrentPlayerCode();
+      var state = _.getIn(this.currentGame, ["board", "state"]);
+      if(state === code) {
+        var element = _.getIn(this.currentGame, ["board", "elements", printCoordinate(coordinate)]);
+        var elementCode = _.get(element, "player");
+        if(elementCode === code) {
+          this["GameStore#unitSelected"](element);
+        }
+      }
     }
   },
 
@@ -108,6 +122,18 @@ var GameStore = assign({}, EventEmitter.prototype, {
 
   getSelectedElement: function getSelectedElement() {
     return this.selectedElement;
+  },
+
+  getCurrentPlayerCode: function getCurrentPlayerCode(givenGame) {
+    var game = givenGame || this.currentGame;
+    var user = CurrentUserStore.getCurrentUser();
+    var username = _.get(user, "username");
+    if(username === _.getIn(game, ["p1", "name"])) {
+      return "p1";
+    } else if(username === _.getIn(game, ["p2", "name"])) {
+      return "p2";
+    }
+    return null;
   }
 
 });

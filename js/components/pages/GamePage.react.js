@@ -14,17 +14,6 @@ var DeployButton = require('../games/DeployButton.react.js')
 
 var CurrentUserStore = require('../../stores/CurrentUserStore.js');
 
-function getCurrentPlayerCode(game) {
-  var user = CurrentUserStore.getCurrentUser();
-  var username = _.get(user, "username");
-  if(username === _.getIn(game, ["p1", "name"])) {
-    return "p1";
-  } else if(username === _.getIn(game, ["p2", "name"])) {
-    return "p2";
-  }
-  return null;
-}
-
 var GamePage = React.createClass({
 
   mixins: [ Router.State ],
@@ -54,7 +43,7 @@ var GamePage = React.createClass({
       );
     }
 
-    var playerCode = getCurrentPlayerCode(this.state.game);
+    var playerCode = GameStore.getCurrentPlayerCode(this.state.game);
     var originalGame = GameStore.originalGame;
 
     return (
