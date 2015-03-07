@@ -13,6 +13,7 @@ var GameRoaster = require('../games/GameRoaster.react.js')
 var DeployButton = require('../games/DeployButton.react.js')
 var TurnButton = require('../games/TurnButton.react.js')
 var UndoActionButton = require('../games/UndoActionButton.react.js')
+var ResetActionsButton = require('../games/ResetActionsButton.react.js')
 
 var CurrentUserStore = require('../../stores/CurrentUserStore.js');
 
@@ -59,6 +60,7 @@ var GamePage = React.createClass({
           <DeployButton playerCode={playerCode} game={this.state.game} originalGame={originalGame} />
 
           <UndoActionButton />
+          <ResetActionsButton />
           <TurnButton game={this.state.game} />
         </div>
       </div>

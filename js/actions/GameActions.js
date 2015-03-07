@@ -103,6 +103,16 @@ module.exports = {
 
   undoLastAction: function undoLastAction() {
     AppDispatcher.dispatch(this.undoLastActionData());
+  },
+
+  resetActionsData: function resetActionsData() {
+    return _.toClj({
+      actionType : "GameStore#resetActions"
+    });
+  },
+
+  resetActions: function resetActions() {
+    AppDispatcher.dispatch(this.resetActionsData());
   }
 
 };
