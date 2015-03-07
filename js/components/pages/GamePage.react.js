@@ -14,6 +14,7 @@ var DeployButton = require('../games/DeployButton.react.js')
 var TurnButton = require('../games/TurnButton.react.js')
 var UndoActionButton = require('../games/UndoActionButton.react.js')
 var ResetActionsButton = require('../games/ResetActionsButton.react.js')
+var ActionPoints = require('../games/ActionPoints.react.js')
 
 var CurrentUserStore = require('../../stores/CurrentUserStore.js');
 
@@ -58,6 +59,8 @@ var GamePage = React.createClass({
         <div className="col-lg-3">
           <GameRoaster playerCode={playerCode} game={this.state.game} />
           <DeployButton playerCode={playerCode} game={this.state.game} originalGame={originalGame} />
+
+          <ActionPoints game={this.state.game} />
 
           <UndoActionButton />
           <ResetActionsButton />
