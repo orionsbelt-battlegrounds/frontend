@@ -16,6 +16,9 @@ module.exports = React.createClass({
     if(_.isEmpty(GameStore.currentActions)) {
       css += " disabled";
     }
+    if(!GameStore.isCurrentUserTurn()) {
+      css = "hide";
+    }
     return (
       <a onClick={this.click} className={css}>Reset</a>
     );
