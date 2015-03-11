@@ -55,6 +55,12 @@ module.exports = React.createClass({
           );
         }
 
+        if(body.length === 0) {
+          if(_.getIn(board.props.game, ["board", "state"]) === "deploy" && y < 2) {
+            body = <div className="misteryUnit">?</div>;
+          }
+        }
+
         return (
           <td key={key}
               onClick={board.click.bind(board, key)}
