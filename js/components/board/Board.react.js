@@ -25,6 +25,7 @@ module.exports = React.createClass({
   render: function () {
     var css = "board " + _.getIn(this.props.game, ["board", "terrain"]);
     var board = this;
+    var isDeploy = _.getIn(board.props.game, ["board", "state"]) === "deploy";
 
     var rows = _.map(function mapRows(y) {
       var columns = _.map(function mapColumns(x) {
@@ -55,10 +56,16 @@ module.exports = React.createClass({
           );
         }
 
+        if(body.length === 0 && selectedElement && isDeploy) {
+          var possibleDeployMove = y > 5 && GameStore.getCurrentPlayerCode() !== null;
+          if(possibleDeployMove) {
+            body = <div className="possibleGoto">?</div>;
+          }
+        }
+
         if(body.length === 0) {
-          var state = _.getIn(board.props.game, ["board", "state"]) === "deploy";
-          var topMistery = state && y < 2;
-          var bottomMistery = state && y > 5 && GameStore.getCurrentPlayerCode() === null;
+          var topMistery = isDeploy && y < 2;
+          var bottomMistery = isDeploy && y > 5 && GameStore.getCurrentPlayerCode() === null;
           if(topMistery || bottomMistery) {
             body = <div className="misteryUnit">?</div>;
           }

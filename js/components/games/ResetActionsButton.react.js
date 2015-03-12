@@ -16,7 +16,7 @@ module.exports = React.createClass({
     if(_.isEmpty(GameStore.currentActions)) {
       css += " disabled";
     }
-    if(!GameStore.isCurrentUserTurn()) {
+    if(!GameStore.isCurrentUserDeploy() && !GameStore.isCurrentUserTurn()) {
       css = "hide";
     }
     return (

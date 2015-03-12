@@ -183,6 +183,13 @@ var GameStore = assign({}, EventEmitter.prototype, {
     return this.selectedElement;
   },
 
+  isCurrentUserDeploy: function isCurrentUserDeploy() {
+    var state = _.getIn(this.originalGame, ["board", "state"]);
+    var originalStash = _.getIn(this.originalGame, ["board", "stash", this.getCurrentPlayerCode()]);
+
+    return "deploy" === state && !_.isEmpty(originalStash);
+  },
+
   isCurrentUserTurn: function isCurrentUserTurn() {
     return this.getCurrentPlayerCode() === _.getIn(this.currentGame, ["board", "state"]);
   },
