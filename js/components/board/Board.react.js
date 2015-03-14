@@ -106,6 +106,21 @@ module.exports = React.createClass({
           body = <div className="movedFromHere"></div>;
         }
 
+        if(body.length === 0 && damageTaken(board.props.game, coordinate)) {
+          //unit was destroyed
+          var coordinateElement = _.getIn(board.props.originalGame, ["board", "elements", "["+(x+1)+" "+(y+1)+"]"]);
+          body = (
+            <UnitCell key={key}
+                      selectable={false}
+                      unitName={_.get(coordinateElement, "unit")}
+                      quantity={0}
+                      direction={_.get(coordinateElement, "direction")}
+                      enemy={true}
+                      damageTaken={true}
+                      selected={false} />
+          );
+        }
+
         if(body.length === 0) {
           var topMistery = isDeploy && y < 2;
           var bottomMistery = isDeploy && y > 5 && GameStore.getCurrentPlayerCode() === null;
