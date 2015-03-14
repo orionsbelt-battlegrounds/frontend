@@ -8,52 +8,38 @@ var UnitCell = require('../board/UnitCell.react.js');
 var GameStore = require('../../stores/GameStore.js');
 var GameActions = require('../../actions/GameActions.js');
 
-function damageGiven(game, coordinate) {
+function actionPerformed(game, actionTypes, isFrom, coordinate) {
+  actionTypes = _.set(actionTypes);
   var results = _.getIn(game, ["board", "action-results"]);
   var moved = _.some(function movedFrom(raw) {
     var action = _.get(raw, 0);
-    var actionType = _.get(action, 0);
-    if("attack" === actionType) {
-      return _.equals(_.get(action, 1), coordinate);
+    var actionType = _.set(_.vector(_.get(action, 0)));
+    if(!_.isEmpty(_.intersection(actionTypes, actionType))) {
+      var index = isFrom ? 1 : 2;
+      return _.equals(_.get(action, index), coordinate);
     }
   }, results);
   return !!moved;
+}
+
+var attackActions = _.set(["attack"]);
+
+function damageGiven(game, coordinate) {
+  return actionPerformed(game, attackActions, true, coordinate);
 }
 
 function damageTaken(game, coordinate) {
-  var results = _.getIn(game, ["board", "action-results"]);
-  var moved = _.some(function movedFrom(raw) {
-    var action = _.get(raw, 0);
-    var actionType = _.get(action, 0);
-    if("attack" === actionType) {
-      return _.equals(_.get(action, 2), coordinate);
-    }
-  }, results);
-  return !!moved;
+  return actionPerformed(game, attackActions, false, coordinate);
 }
 
+var movementActions = _.set(["goto", "move"]);
+
 function movedFromCoordinate(game, coordinate) {
-  var results = _.getIn(game, ["board", "action-results"]);
-  var moved = _.some(function movedFrom(raw) {
-    var action = _.get(raw, 0);
-    var actionType = _.get(action, 0);
-    if("goto" === actionType || "move" === actionType) {
-      return _.equals(_.get(action, 1), coordinate);
-    }
-  }, results);
-  return !!moved;
+  return actionPerformed(game, movementActions, true, coordinate);
 }
 
 function movedToCoordinate(game, coordinate) {
-  var results = _.getIn(game, ["board", "action-results"]);
-  var moved = _.some(function movedFrom(raw) {
-    var action = _.get(raw, 0);
-    var actionType = _.get(action, 0);
-    if("goto" === actionType || "move" === actionType) {
-      return _.equals(_.get(action, 2), coordinate);
-    }
-  }, results);
-  return !!moved;
+  return actionPerformed(game, movementActions, false, coordinate);
 }
 
 module.exports = React.createClass({
