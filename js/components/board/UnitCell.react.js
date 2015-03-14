@@ -44,7 +44,7 @@ function wrapMoved(component) {
 
 function wrapEnemy(component) {
   var damageTakenPanel = null;
-  if(component.props.damageTaken) {
+  if(component.props.damageTaken || component.props.overed) {
     damageTakenPanel = (
       <div className="damageTaken">
         <span className="label label-danger unit-cell-quantity">{component.props.quantity}</span>

@@ -67,7 +67,9 @@ module.exports = React.createClass({
         var coordinate = _.vector(x+1, y+1);
         var body = "";
         var selectedElement = _.get(board.state.data, "selectedElement");
-        if(selectedElement && key === _.get(board.state.data, "overedCoordinate")) {
+        var isOvered = key === _.get(board.state.data, "overedCoordinate");
+
+        if(selectedElement && isOvered) {
           body = (
             <UnitCell key={name}
                       selectable={false}
@@ -80,6 +82,7 @@ module.exports = React.createClass({
         var coordinateElement = _.getIn(board.props.game, ["board", "elements", "["+(x+1)+" "+(y+1)+"]"]);
         if(coordinateElement) {
           var selected = _.equals(selectedElement, coordinateElement);
+
           body = (
             <UnitCell key={key}
                       selectable={false}
@@ -90,6 +93,7 @@ module.exports = React.createClass({
                       enemy={_.get(coordinateElement, "player") !== GameStore.getCurrentPlayerCode()}
                       damageTaken={damageTaken(board.props.game, coordinate)}
                       damageGiven={damageGiven(board.props.game, coordinate)}
+                      overed={isOvered}
                       selected={selected} />
           );
         }
