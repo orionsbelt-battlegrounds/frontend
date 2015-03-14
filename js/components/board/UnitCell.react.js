@@ -91,7 +91,7 @@ module.exports = React.createClass({
       return wrapEnemy(this);
     } else if(this.props.selected) {
       return wrapSelected(this);
-    } else if(this.props.moved) {
+    } else if(this.props.moved || this.props.damageGiven) {
       return wrapMoved(this);
     }
     return rawUnit(this);

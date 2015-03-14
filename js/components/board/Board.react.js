@@ -8,6 +8,18 @@ var UnitCell = require('../board/UnitCell.react.js');
 var GameStore = require('../../stores/GameStore.js');
 var GameActions = require('../../actions/GameActions.js');
 
+function damageGiven(game, coordinate) {
+  var results = _.getIn(game, ["board", "action-results"]);
+  var moved = _.some(function movedFrom(raw) {
+    var action = _.get(raw, 0);
+    var actionType = _.get(action, 0);
+    if("attack" === actionType) {
+      return _.equals(_.get(action, 1), coordinate);
+    }
+  }, results);
+  return !!moved;
+}
+
 function damageTaken(game, coordinate) {
   var results = _.getIn(game, ["board", "action-results"]);
   var moved = _.some(function movedFrom(raw) {
@@ -91,6 +103,7 @@ module.exports = React.createClass({
                       direction={_.get(coordinateElement, "direction")}
                       enemy={_.get(coordinateElement, "player") !== GameStore.getCurrentPlayerCode()}
                       damageTaken={damageTaken(board.props.game, coordinate)}
+                      damageGiven={damageGiven(board.props.game, coordinate)}
                       selected={selected} />
           );
         }
