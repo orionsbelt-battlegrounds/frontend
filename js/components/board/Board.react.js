@@ -8,6 +8,18 @@ var UnitCell = require('../board/UnitCell.react.js');
 var GameStore = require('../../stores/GameStore.js');
 var GameActions = require('../../actions/GameActions.js');
 
+function movedFromCoordinate(game, coordinate) {
+  var results = _.getIn(game, ["board", "action-results"]);
+  var moved = _.some(function movedFrom(raw) {
+    var action = _.get(raw, 0);
+    var actionType = _.get(action, 0);
+    if("goto" === actionType || "move" === actionType) {
+      return _.equals(_.get(action, 1), coordinate);
+    }
+  }, results);
+  return !!moved;
+}
+
 module.exports = React.createClass({
 
   getInitialState: function() {
@@ -30,6 +42,7 @@ module.exports = React.createClass({
     var rows = _.map(function mapRows(y) {
       var columns = _.map(function mapColumns(x) {
         var key = (x+1)+":"+(y+1);
+        var coordinate = _.vector(x+1, y+1);
         var body = "";
         var selectedElement = _.get(board.state.data, "selectedElement");
         if(selectedElement && key === _.get(board.state.data, "overedCoordinate")) {
@@ -59,8 +72,12 @@ module.exports = React.createClass({
         if(body.length === 0 && selectedElement && isDeploy) {
           var possibleDeployMove = y > 5 && GameStore.getCurrentPlayerCode() !== null;
           if(possibleDeployMove) {
-            body = <div className="possibleGoto">?</div>;
+            body = <div className="possibleGoto"></div>;
           }
+        }
+
+        if(body.length === 0 && movedFromCoordinate(board.props.game, coordinate)) {
+          body = <div className="movedFromHere"></div>;
         }
 
         if(body.length === 0) {
