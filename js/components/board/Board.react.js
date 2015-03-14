@@ -20,6 +20,18 @@ function movedFromCoordinate(game, coordinate) {
   return !!moved;
 }
 
+function movedToCoordinate(game, coordinate) {
+  var results = _.getIn(game, ["board", "action-results"]);
+  var moved = _.some(function movedFrom(raw) {
+    var action = _.get(raw, 0);
+    var actionType = _.get(action, 0);
+    if("goto" === actionType || "move" === actionType) {
+      return _.equals(_.get(action, 2), coordinate);
+    }
+  }, results);
+  return !!moved;
+}
+
 module.exports = React.createClass({
 
   getInitialState: function() {
@@ -61,6 +73,7 @@ module.exports = React.createClass({
           body = (
             <UnitCell key={key}
                       selectable={false}
+                      moved={movedToCoordinate(board.props.game, coordinate)}
                       unitName={_.get(coordinateElement, "unit")}
                       quantity={_.get(coordinateElement, "quantity")}
                       direction={_.get(coordinateElement, "direction")}

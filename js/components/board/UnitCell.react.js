@@ -33,6 +33,15 @@ function getCss(component) {
   return "units-sprite units-"+component.props.unitName+"_"+dir+" "+selected+" unit-cell";
 }
 
+function wrapMoved(component) {
+  return (
+    <div>
+      <div className="moved"></div>
+      {rawUnit(component)}
+    </div>
+  );
+}
+
 function wrapEnemy(component) {
   return (
     <div>
@@ -73,6 +82,8 @@ module.exports = React.createClass({
       return wrapEnemy(this);
     } else if(this.props.selected) {
       return wrapSelected(this);
+    } else if(this.props.moved) {
+      return wrapMoved(this);
     }
     return rawUnit(this);
   },
