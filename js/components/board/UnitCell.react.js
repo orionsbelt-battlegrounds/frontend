@@ -33,11 +33,29 @@ function getCss(component) {
   return "units-sprite units-"+component.props.unitName+"_"+dir+" "+selected+" unit-cell";
 }
 
+function wrapMoved(component) {
+  return (
+    <div>
+      <div className="moved"></div>
+      {rawUnit(component)}
+    </div>
+  );
+}
+
 function wrapEnemy(component) {
+  var damageTakenPanel = null;
+  if(component.props.damageTaken || component.props.overed) {
+    damageTakenPanel = (
+      <div className="damageTaken">
+        <span className="label label-danger unit-cell-quantity">{component.props.quantity}</span>
+      </div>
+    );
+  }
   return (
     <div>
       <div className="enemy"></div>
       {rawUnit(component)}
+      {damageTakenPanel}
     </div>
   );
 }
@@ -73,6 +91,8 @@ module.exports = React.createClass({
       return wrapEnemy(this);
     } else if(this.props.selected) {
       return wrapSelected(this);
+    } else if(this.props.moved || this.props.damageGiven) {
+      return wrapMoved(this);
     }
     return rawUnit(this);
   },

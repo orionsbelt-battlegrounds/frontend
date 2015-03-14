@@ -8,6 +8,40 @@ var UnitCell = require('../board/UnitCell.react.js');
 var GameStore = require('../../stores/GameStore.js');
 var GameActions = require('../../actions/GameActions.js');
 
+function actionPerformed(game, actionTypes, isFrom, coordinate) {
+  actionTypes = _.set(actionTypes);
+  var results = _.getIn(game, ["board", "action-results"]);
+  var moved = _.some(function movedFrom(raw) {
+    var action = _.get(raw, 0);
+    var actionType = _.set(_.vector(_.get(action, 0)));
+    if(!_.isEmpty(_.intersection(actionTypes, actionType))) {
+      var index = isFrom ? 1 : 2;
+      return _.equals(_.get(action, index), coordinate);
+    }
+  }, results);
+  return !!moved;
+}
+
+var attackActions = _.set(["attack"]);
+
+function damageGiven(game, coordinate) {
+  return actionPerformed(game, attackActions, true, coordinate);
+}
+
+function damageTaken(game, coordinate) {
+  return actionPerformed(game, attackActions, false, coordinate);
+}
+
+var movementActions = _.set(["goto", "move"]);
+
+function movedFromCoordinate(game, coordinate) {
+  return actionPerformed(game, movementActions, true, coordinate);
+}
+
+function movedToCoordinate(game, coordinate) {
+  return actionPerformed(game, movementActions, false, coordinate);
+}
+
 module.exports = React.createClass({
 
   getInitialState: function() {
@@ -30,9 +64,12 @@ module.exports = React.createClass({
     var rows = _.map(function mapRows(y) {
       var columns = _.map(function mapColumns(x) {
         var key = (x+1)+":"+(y+1);
+        var coordinate = _.vector(x+1, y+1);
         var body = "";
         var selectedElement = _.get(board.state.data, "selectedElement");
-        if(selectedElement && key === _.get(board.state.data, "overedCoordinate")) {
+        var isOvered = key === _.get(board.state.data, "overedCoordinate");
+
+        if(selectedElement && isOvered) {
           body = (
             <UnitCell key={name}
                       selectable={false}
@@ -45,13 +82,18 @@ module.exports = React.createClass({
         var coordinateElement = _.getIn(board.props.game, ["board", "elements", "["+(x+1)+" "+(y+1)+"]"]);
         if(coordinateElement) {
           var selected = _.equals(selectedElement, coordinateElement);
+
           body = (
             <UnitCell key={key}
                       selectable={false}
+                      moved={movedToCoordinate(board.props.game, coordinate)}
                       unitName={_.get(coordinateElement, "unit")}
                       quantity={_.get(coordinateElement, "quantity")}
                       direction={_.get(coordinateElement, "direction")}
                       enemy={_.get(coordinateElement, "player") !== GameStore.getCurrentPlayerCode()}
+                      damageTaken={damageTaken(board.props.game, coordinate)}
+                      damageGiven={damageGiven(board.props.game, coordinate)}
+                      overed={isOvered}
                       selected={selected} />
           );
         }
@@ -59,8 +101,27 @@ module.exports = React.createClass({
         if(body.length === 0 && selectedElement && isDeploy) {
           var possibleDeployMove = y > 5 && GameStore.getCurrentPlayerCode() !== null;
           if(possibleDeployMove) {
-            body = <div className="possibleGoto">?</div>;
+            body = <div className="possibleGoto"></div>;
           }
+        }
+
+        if(body.length === 0 && movedFromCoordinate(board.props.game, coordinate)) {
+          body = <div className="movedFromHere"></div>;
+        }
+
+        if(body.length === 0 && damageTaken(board.props.game, coordinate)) {
+          //unit was destroyed
+          var coordinateElement = _.getIn(board.props.originalGame, ["board", "elements", "["+(x+1)+" "+(y+1)+"]"]);
+          body = (
+            <UnitCell key={key}
+                      selectable={false}
+                      unitName={_.get(coordinateElement, "unit")}
+                      quantity={0}
+                      direction={_.get(coordinateElement, "direction")}
+                      enemy={true}
+                      damageTaken={true}
+                      selected={false} />
+          );
         }
 
         if(body.length === 0) {

@@ -118,9 +118,34 @@ table.gamesPreview tr td.unitRoaster {
   position:absolute;
 }
 
+.damageTaken {
+  background-image: url("/public/battle/target.gif");
+  opacity:0.8;
+  width:50px;
+  height:50px;
+  position: absolute;
+}
+
 .possibleGoto {
   background-image: url("/public/battle/goto.gif");
   opacity:0.8;
+  width:50px;
+  height:50px;
+  padding: 9px 17px;
+  font-size: 25px;
+}
+
+.moved {
+  background-color:yellow;
+  opacity:0.3;
+  width:50px;
+  height:50px;
+  position:absolute;
+}
+
+.movedFromHere {
+  background-color:yellow;
+  opacity:0.3;
   width:50px;
   height:50px;
   padding: 9px 17px;

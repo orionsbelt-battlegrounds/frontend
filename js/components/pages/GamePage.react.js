@@ -53,7 +53,7 @@ var GamePage = React.createClass({
     return (
       <div className="row">
         <div className="col-lg-6">
-          <Board game={this.state.game} />
+          <Board game={this.state.game} originalGame={originalGame} />
           <PlayerStash playerCode={playerCode} game={this.state.game} />
         </div>
         <div className="col-lg-3">
