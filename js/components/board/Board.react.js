@@ -101,7 +101,11 @@ module.exports = React.createClass({
         if(body.length === 0 && selectedElement && isDeploy) {
           var possibleDeployMove = y > 5 && GameStore.getCurrentPlayerCode() !== null;
           if(possibleDeployMove) {
-            body = <div className="possibleGoto"></div>;
+            body = (
+              <div className="possibleGoto">
+                <span className="label label-success">0</span>
+              </div>
+            );
           }
         }
 
