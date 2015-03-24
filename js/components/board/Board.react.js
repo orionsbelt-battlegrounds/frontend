@@ -109,6 +109,12 @@ module.exports = React.createClass({
           }
         }
 
+        if(selectedElement && !isDeploy) {
+          var hints = _.getIn(board.props.game, ["hints"]);
+          var coordHint = _.first(_.filter(function(elem){return "[7, 5]" === _.get(elem, "coord");}, hints));
+          console.log(_.toJs(coordHint))
+        }
+
         if(body.length === 0 && movedFromCoordinate(board.props.game, coordinate)) {
           body = <div className="movedFromHere"></div>;
         }
