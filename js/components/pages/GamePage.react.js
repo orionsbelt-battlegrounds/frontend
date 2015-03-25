@@ -20,7 +20,7 @@ var CurrentUserStore = require('../../stores/CurrentUserStore.js');
 
 var GamePage = React.createClass({
 
-  mixins: [ Router.State ],
+  mixins: [Router.State],
 
   getInitialState: function getInitialState() {
     return {loading:true};
