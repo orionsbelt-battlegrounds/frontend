@@ -116,9 +116,19 @@ module.exports = React.createClass({
           var gotos = _.get(coordHint, "goto");
           var cost = _.get(gotos, "["+(x+1) +" "+(y+1)+"]");
           if(cost) {
+            var css = "label ";
+
+            if(cost == 6) {
+              css += "label-danger";
+            } else if(cost <= 2) {
+              css += "label-success";
+            } else {
+              css += "label-warning";
+            }
+
             body = (
               <div className="possibleGoto">
-                <span className="label label-success">{cost}</span>
+                <span className={css}>{cost}</span>
               </div>
             );
           }
