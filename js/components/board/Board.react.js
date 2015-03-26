@@ -60,13 +60,15 @@ module.exports = React.createClass({
     var css = "board " + _.getIn(this.props.game, ["board", "terrain"]);
     var board = this;
     var isDeploy = _.getIn(board.props.game, ["board", "state"]) === "deploy";
+    var selectedElement = _.get(board.state.data, "selectedElement");
+    var selectedCoordinate = _.get(selectedElement, "coordinate");
+    var hints = _.getIn(board.props.game, ["hints"]);
 
     var rows = _.map(function mapRows(y) {
       var columns = _.map(function mapColumns(x) {
         var key = (x+1)+":"+(y+1);
         var coordinate = _.vector(x+1, y+1);
         var body = "";
-        var selectedElement = _.get(board.state.data, "selectedElement");
         var isOvered = key === _.get(board.state.data, "overedCoordinate");
 
         if(selectedElement && isOvered) {
@@ -101,7 +103,34 @@ module.exports = React.createClass({
         if(body.length === 0 && selectedElement && isDeploy) {
           var possibleDeployMove = y > 5 && GameStore.getCurrentPlayerCode() !== null;
           if(possibleDeployMove) {
-            body = <div className="possibleGoto"></div>;
+            body = (
+              <div className="possibleGoto">
+                <span className="label label-success">0</span>
+              </div>
+            );
+          }
+        }
+
+        if(body.length == 0 && selectedElement && !isDeploy) {
+          var coordHint = _.first(_.filter(function(elem){return _.equals(selectedCoordinate, _.get(elem, "coord"));}, hints));
+          var gotos = _.get(coordHint, "goto");
+          var cost = _.get(gotos, "["+(x+1) +" "+(y+1)+"]");
+          if(cost) {
+            var css = "label ";
+
+            if(cost == 6) {
+              css += "label-danger";
+            } else if(cost <= 2) {
+              css += "label-success";
+            } else {
+              css += "label-warning";
+            }
+
+            body = (
+              <div className="possibleGoto">
+                <span className={css}>{cost}</span>
+              </div>
+            );
           }
         }
 

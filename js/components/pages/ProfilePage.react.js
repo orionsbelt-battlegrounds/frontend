@@ -5,7 +5,7 @@ var React = require('react');
 
 var ProfilePage = React.createClass({
 
-  mixins: [ Router.State ],
+  mixins: [Router.State],
 
   render: function () {
     return (
